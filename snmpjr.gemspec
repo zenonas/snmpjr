@@ -8,9 +8,10 @@ Gem::Specification.new do |spec|
   spec.version       = Snmpjr::VERSION
   spec.authors       = ["Zen Kyprianou"]
   spec.email         = ["zen@kyprianou.eu"]
-  spec.summary       = %q{TODO: Write a short summary. Required.}
-  spec.description   = %q{TODO: Write a longer description. Optional.}
-  spec.homepage      = ""
+  spec.summary       = %q{Simple SNMP interface for JRuby}
+  spec.description   = %q{Snmpjr aims to provide a clean and simple interface to use SNMP in your ruby code. It will wrap the popular SNMP4J library in Java.
+}
+  spec.homepage      = "https://github.com/zenonas/snmpjr"
   spec.license       = "MIT"
 
   spec.files         = `git ls-files -z`.split("\x0")
