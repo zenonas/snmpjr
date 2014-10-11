@@ -1,4 +1,5 @@
 require 'simplecov'
+require 'pry'
 require_relative '../lib/snmpjr'
 
 SimpleCov.start do
