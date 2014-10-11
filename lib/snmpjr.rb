@@ -12,9 +12,9 @@ class Snmpjr
   end
 
   def get oid
-    target = Snmpjr::Target.new(:host => @host, :port => @port, :community => @community)
-    pdu = Snmpjr::Pdu.new oid
-    Snmpjr::Session.new.send target, pdu
+    target = Snmpjr::Target.new.create(:host => @host, :port => @port, :community => @community)
+    pdu = Snmpjr::Pdu.new.create oid
+    Snmpjr::Session.new.send(pdu, target)
   end
 
 end
