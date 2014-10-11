@@ -1,8 +1,13 @@
 # Snmpjr
 
+[![Build Status](https://travis-ci.org/zenonas/snmpjr.svg?branch=master)](https://travis-ci.org/zenonas/snmpjr)
 Snmpjr aims to provide a clean and simple interface to use SNMP in your ruby code. It will wrap the popular SNMP4J library in Java.
 
 Please note the gem is still in early develpment. Do not use as of yet!
+
+## Features
+
+* Simple Synchronous SNMP v2c Get requests
 
 ## Requirements
 
@@ -27,7 +32,13 @@ Or install it yourself as:
 
 ## Usage
 
-TODO: Write usage instructions here
+```ruby
+# Initialize Snmpjr with host, port and a community
+snmp = Snmpjr.new(:host => '127.0.0.1', :port => 161, :community => 'public')
+
+# Call get on any single Oid
+snmp.get '1.3.6.1.2.1.1.1.0'
+```
 
 ## Contributing
 
