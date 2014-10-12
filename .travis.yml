@@ -10,3 +10,4 @@ deploy:
   on:
     tags: true
     repo: zenonas/snmpjr
+    all_branches: true
