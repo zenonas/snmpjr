@@ -2,3 +2,11 @@ language: ruby
 rvm:
 - jruby-1.7.0
 - jruby-1.7.16
+deploy:
+  provider: rubygems
+  api_key:
+    secure: C9X1OQ07eVDPqOEcKQOOo+Li18J5VQ6uwsua6fNb7Mvzm5RVYKdaYMjan6gSJNkprxk5yDt/LQSZBBSSluO0yqxzyFFFBqzswPPKsYys5HVW45rFLFDs83e2YtgACEnXfNozuWoy0i3jgpN/P+eqrBlNFfuHpm4di7IBmeZimDY=
+  gem: snmpjr
+  on:
+    tags: true
+    repo: zenonas/snmpjr
