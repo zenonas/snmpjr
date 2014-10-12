@@ -1,0 +1,3 @@
+== 0.1.0 (12 October 2014)
+
+* Simple Synchronous SNMP get requests for SNMP v2c
