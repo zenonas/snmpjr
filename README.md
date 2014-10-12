@@ -41,7 +41,7 @@ snmp.get '1.3.6.1.2.1.1.1.0'
 => 'The result'
 
 # Call get on an array of Oids'
-snmp.get ['1.3.6.1.2.1.1.1.0, '1.3.6.1.2.1.1.3.0']
+snmp.get ['1.3.6.1.2.1.1.1.0', '1.3.6.1.2.1.1.3.0']
 => ['First result', 'Second result']
 ```
 
