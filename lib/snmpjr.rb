@@ -13,6 +13,7 @@ class Snmpjr
 
   def get oids
     target = Snmpjr::Target.new.create(:host => @host, :port => @port, :community => @community)
+
     case oids.class.to_s
     when 'String'
       get_oid(oids, target)

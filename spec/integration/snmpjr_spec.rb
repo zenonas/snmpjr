@@ -1,3 +1,5 @@
+require 'snmpjr'
+
 describe "snmpjr" do
 
   subject { Snmpjr.new(:host => 'demo.snmplabs.com', :port => 161, :community => 'public') }
