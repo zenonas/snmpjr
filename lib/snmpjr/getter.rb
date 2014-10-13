@@ -11,16 +11,18 @@ class Snmpjr
 
     def get_multiple oids
       @session.start
-      oids.map {|oid|
+      result = oids.map {|oid|
         send_oid oid
       }
       @session.close
+      result
     end
 
     def get oid
       @session.start
-      send_oid oid
+      result = send_oid oid
       @session.close
+      result
     end
 
     private

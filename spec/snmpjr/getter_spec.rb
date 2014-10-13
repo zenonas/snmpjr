@@ -13,7 +13,7 @@ describe Snmpjr::Getter do
     allow(pdu).to receive(:create).with('1.2.3.4.5.6').and_return created_pdu_1
     allow(Snmpjr::Session).to receive(:new).and_return session
     allow(session).to receive(:start)
-    allow(session).to receive(:send)
+    allow(session).to receive(:send).with(created_pdu_1, target).and_return 'Foo'
     allow(session).to receive(:close)
   end
 
@@ -22,6 +22,7 @@ describe Snmpjr::Getter do
 
     before do
       allow(pdu).to receive(:create).with('6.5.4.3.2.1').and_return created_pdu_2
+      allow(session).to receive(:send).with(created_pdu_2, target).and_return 'Bar'
     end
 
     it 'starts an snmp session' do
@@ -30,7 +31,7 @@ describe Snmpjr::Getter do
     end
 
     it 'performs multiple gets for each oid' do
-      subject.get_multiple ['1.2.3.4.5.6', '6.5.4.3.2.1']
+      expect(subject.get_multiple ['1.2.3.4.5.6', '6.5.4.3.2.1']).to eq(['Foo', 'Bar'])
       expect(session).to have_received(:send).with(created_pdu_1, target)
       expect(session).to have_received(:send).with(created_pdu_2, target)
     end
@@ -48,7 +49,7 @@ describe Snmpjr::Getter do
     end
 
     it 'performs a synchronous get' do
-      subject.get '1.2.3.4.5.6'
+      expect(subject.get '1.2.3.4.5.6').to eq 'Foo'
       expect(session).to have_received(:send).with(created_pdu_1, target)
     end
 
