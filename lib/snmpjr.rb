@@ -1,6 +1,5 @@
 require "snmpjr/version"
-require "snmpjr/pdu"
-require "snmpjr/session"
+require "snmpjr/getter"
 require "snmpjr/target"
 
 class Snmpjr
@@ -13,24 +12,16 @@ class Snmpjr
 
   def get oids
     target = Snmpjr::Target.new.create(:host => @host, :port => @port, :community => @community)
+    getter = Snmpjr::Getter.new(target)
 
     case oids.class.to_s
     when 'String'
-      get_oid(oids, target)
+      getter.get oids
     when 'Array'
-      oids.map{|oid|
-        get_oid(oid, target)
-      }
+      getter.get_multiple oids
     else
       raise ArgumentError.new 'You can request a single Oid using a String, or multiple using an Array'
     end
-  end
-
-  private
-
-  def get_oid oid, target
-    pdu = Snmpjr::Pdu.new.create oid
-    Snmpjr::Session.new.send(pdu, target)
   end
 
 end
