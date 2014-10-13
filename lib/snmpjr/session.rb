@@ -15,7 +15,7 @@ class Snmpjr
       begin
         result = @snmp.send(pdu, target)
         if result.response.nil?
-          "Request timed out"
+          "Error: Request timed out"
         else
           result.response.variable_bindings.first.variable.to_s
         end

@@ -29,7 +29,7 @@ describe "snmpjr" do
       subject { Snmpjr.new(:host => 'example.com', :port => 161, :community => 'public') }
 
       it "the request times out after 5 seconds" do
-        expect(subject.get '1.3.6.1.2.1.1.1.0').to eq 'Request timed out'
+        expect(subject.get '1.3.6.1.2.1.1.1.0').to eq 'Error: Request timed out'
       end
     end
 

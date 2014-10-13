@@ -48,7 +48,7 @@ describe Snmpjr::Session do
       end
 
       it 'returns a request timeout' do
-        expect(subject.send(pdu, target)).to eq "Request timed out"
+        expect(subject.send(pdu, target)).to eq "Error: Request timed out"
       end
     end
 
