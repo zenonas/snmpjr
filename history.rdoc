@@ -1,3 +1,7 @@
+== 0.1.2 (13 October 2014)
+
+* Refactor the wiring
+
 == 0.1.1 (12 October 2014)
 
 * Fix travis auto deployment
