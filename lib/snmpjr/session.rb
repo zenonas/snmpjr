@@ -1,4 +1,5 @@
 require 'snmpjr/wrappers/transport'
+require 'snmpjr/response'
 
 class Snmpjr
   class Session
@@ -15,12 +16,12 @@ class Snmpjr
       begin
         result = @snmp.send(pdu, target)
         if result.response.nil?
-          "Error: Request timed out"
+          Snmpjr::Response.new(:error => 'Request timed out')
         else
-          result.response.variable_bindings.first.variable.to_s
+          Snmpjr::Response.new(:value => result.response.variable_bindings.first.variable.to_s)
         end
-      rescue Exception => e
-        "Error: #{e.to_s}"
+      rescue Exception => error
+        Snmpjr::Response.new(:error => error.to_s)
       end
     end
 
