@@ -1,3 +1,8 @@
+== 0.1.5 (14 October 2014)
+
+* Allow timeout to be specified in the initializer
+* Package Oids in a single PDU up to the default maximum of 30 which can be overidden using :max_oids_per_request
+
 == 0.1.4 (14 October 2014)
 
 * Returns a Response object rather than strings
