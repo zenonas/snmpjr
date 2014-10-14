@@ -1,3 +1,7 @@
+== 0.1.4 (14 October 2014)
+
+* Returns a Response object rather than strings
+
 == 0.1.3 (13 October 2014)
 
 * Tweak the wording of the timeouts to show that its an error
