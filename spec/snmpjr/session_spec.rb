@@ -47,8 +47,9 @@ describe Snmpjr::Session do
         allow(result).to receive(:response).and_return nil
       end
 
+      let(:expected_response) { Snmpjr::Response.new(:error => 'Request timed out') }
       it 'returns a request timeout' do
-        expect(subject.send(pdu, target)).to eq "Error: Request timed out"
+        expect(subject.send(pdu, target)).to eq expected_response
       end
     end
 
@@ -57,8 +58,9 @@ describe Snmpjr::Session do
         allow(snmp_session).to receive(:send).and_raise(RuntimeError.new('Some error'))
       end
 
+      let(:expected_response) { Snmpjr::Response.new(:error => 'Some error') }
       it 'returns the error without blowing up' do
-        expect(subject.send(pdu, target)).to eq "Error: Some error"
+        expect(subject.send(pdu, target)).to eq expected_response
       end
     end
   end
