@@ -1,6 +1,8 @@
-# Snmpjr
+Snmpjr
+======
 
-[![Build Status](https://travis-ci.org/zenonas/snmpjr.svg?branch=master)](https://travis-ci.org/zenonas/snmpjr)
+[![Gem Version](https://badge.fury.io/rb/snmpjr.svg)](http://badge.fury.io/rb/snmpjr) [![Build Status](https://travis-ci.org/zenonas/snmpjr.svg?branch=master)](https://travis-ci.org/zenonas/snmpjr) [![Coverage Status](https://img.shields.io/coveralls/zenonas/snmpjr.svg)](https://coveralls.io/r/zenonas/snmpjr?branch=master) [![Code Climate](https://codeclimate.com/github/zenonas/snmpjr/badges/gpa.svg)](https://codeclimate.com/github/zenonas/snmpjr) [![Dependency Status](https://gemnasium.com/zenonas/snmpjr.svg)](https://gemnasium.com/zenonas/snmpjr) [![Inline docs](http://inch-ci.org/github/zenonas/snmpjr.svg?branch=master)](http://inch-ci.org/github/zenonas/snmpjr)
+
 Snmpjr aims to provide a clean and simple interface to use SNMP in your ruby code. It will wrap the popular SNMP4J library in Java.
 
 Please note the gem is still in early develpment. Do not use as of yet!
