@@ -30,7 +30,7 @@ describe "snmpjr" do
     end
 
     context 'when the host is unreachable' do
-      subject { Snmpjr.new(:host => 'example.com', :port => 161, :community => 'public') }
+      subject { Snmpjr.new(:host => 'example.com', :port => 161, :community => 'public', :timeout => 50) }
 
       it "the request times out after 5 seconds" do
         expect{

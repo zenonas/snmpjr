@@ -8,11 +8,12 @@ class Snmpjr
     @host = options.fetch(:host)
     @port = options.fetch(:port) || 161
     @community = options.fetch(:community)
+    @timeout = options[:timeout] || 5000
     @max_oids_per_request = options[:max_oids_per_request] || 30
   end
 
   def get oids
-    target = Snmpjr::Target.new.create(:host => @host, :port => @port, :community => @community)
+    target = Snmpjr::Target.new.create(:host => @host, :port => @port, :community => @community, :timeout => @timeout)
     getter = Snmpjr::Getter.new(:target => target, :max_oids_per_request => @max_oids_per_request)
 
     case oids.class.to_s

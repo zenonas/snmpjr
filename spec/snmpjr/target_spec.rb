@@ -3,7 +3,7 @@ require production_code
 describe Snmpjr::Target do
 
   describe "#create" do
-    let(:options) { { :host => '127.0.0.1', :port => 161, :community => 'some_community' } }
+    let(:options) { { :host => '127.0.0.1', :port => 161, :community => 'some_community', :timeout => 50 } }
 
     it "creates an octet string for the community string" do
       expect(Snmpjr::Wrappers::SMI::OctetString).to receive(:new).with(options[:community])
@@ -25,9 +25,9 @@ describe Snmpjr::Target do
       allow(community_target).to receive(:address=)
     end
 
-    it "sets the snmp version to v2c and the timeout to 5000ms" do
+    it "sets the snmp version to v2c and the timeout to 50ms" do
       expect(community_target).to receive(:version=).with(1)
-      expect(community_target).to receive(:timeout=).with(5000)
+      expect(community_target).to receive(:timeout=).with(50)
       subject.create(options)
     end
 
