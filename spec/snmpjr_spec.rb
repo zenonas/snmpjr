@@ -11,12 +11,12 @@ describe Snmpjr do
       before do
         allow(Snmpjr::Target).to receive(:new).and_return target
         allow(target).to receive(:create).with(agent_details).and_return community_target
-        allow(Snmpjr::Getter).to receive(:new).with(:target => community_target, :max_oids_per_request => 20).and_return getter
+        allow(Snmpjr::Getter).to receive(:new).with(target: community_target, max_oids_per_request: 20).and_return getter
       end
 
-      let(:agent_details) { { :host => '127.0.0.1', :port => 161, :community => 'some_community', :timeout => 50 } }
+      let(:agent_details) { { host: '127.0.0.1', port: 161, community: 'some_community', timeout: 50 } }
 
-      subject { described_class.new(agent_details.merge({:max_oids_per_request => 20})) }
+      subject { described_class.new(agent_details.merge({max_oids_per_request: 20})) }
 
       context 'when passed a single oid' do
         it 'performs a synchronous get' do

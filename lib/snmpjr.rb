@@ -13,8 +13,8 @@ class Snmpjr
   end
 
   def get oids
-    target = Snmpjr::Target.new.create(:host => @host, :port => @port, :community => @community, :timeout => @timeout)
-    getter = Snmpjr::Getter.new(:target => target, :max_oids_per_request => @max_oids_per_request)
+    target = Snmpjr::Target.new.create(host: @host, port: @port, community: @community, timeout: @timeout)
+    getter = Snmpjr::Getter.new(target: target, max_oids_per_request: @max_oids_per_request)
 
     case oids.class.to_s
     when 'String'

@@ -13,21 +13,21 @@ describe Snmpjr::Session do
     allow(snmp_session).to receive(:close)
   end
 
-  describe "#start" do
+  describe '#start' do
 
-    it "opens a new SNMP4J session with Udp transport mapping" do
+    it 'opens a new SNMP4J session with Udp transport mapping' do
       subject.start
       expect(Snmpjr::Wrappers::Snmp).to have_received(:new).with(transport_mapping)
     end
 
-    it "calls the listen method on the Snmp session" do
+    it 'calls the listen method on the Snmp session' do
       subject.start
       expect(snmp_session).to have_received(:listen)
     end
 
   end
 
-  describe "#send" do
+  describe '#send' do
     let(:vb1) { double :vb1 }
     let(:vb2) { double :vb2 }
     let(:results) { [vb1, vb2] }
@@ -44,7 +44,7 @@ describe Snmpjr::Session do
       allow(response).to receive_message_chain('response.variable_bindings').and_return(results)
     end
 
-    it "sends the pdu to the target" do
+    it 'sends the pdu to the target' do
       expect(snmp_session).to receive(:send).with(pdu, target)
       subject.send(pdu, target)
     end
@@ -74,8 +74,8 @@ describe Snmpjr::Session do
     end
   end
 
-  describe "#close" do
-    it "closes the snmp session" do
+  describe '#close' do
+    it 'closes the snmp session' do
       subject.close
       expect(snmp_session).to have_received(:close)
     end

@@ -6,7 +6,7 @@ describe Snmpjr::Getter do
   let(:pdu) { double Snmpjr::Pdu }
   let(:created_pdu_single) { double :created_pdu_single }
 
-  subject { described_class.new(:target => target, :max_oids_per_request => 1) }
+  subject { described_class.new(target: target, max_oids_per_request: 1) }
 
   before do
     allow(Snmpjr::Pdu).to receive(:new).and_return pdu
@@ -17,7 +17,7 @@ describe Snmpjr::Getter do
     allow(session).to receive(:close)
   end
 
-  describe "#get_multiple" do
+  describe '#get_multiple' do
     let(:created_pdu_multiple_1) { double :created_pdu_multiple_1 }
     let(:created_pdu_multiple_2) { double :created_pdu_multiple_2 }
 
@@ -45,7 +45,7 @@ describe Snmpjr::Getter do
     end
   end
 
-  describe "#get" do
+  describe '#get' do
     it 'starts an snmp session' do
       subject.get '1.2.3.4.5.6'
       expect(session).to have_received(:start)

@@ -1,7 +1,7 @@
 require production_code
 
 describe Snmpjr::Pdu do
-  describe "#create" do
+  describe '#create' do
 
     let(:pdu) { double Snmpjr::Wrappers::PDU }
     let(:oid_1) { double Snmpjr::Wrappers::SMI::OID }
@@ -18,12 +18,12 @@ describe Snmpjr::Pdu do
       allow(pdu).to receive(:type=)
       allow(pdu).to receive(:add)
     end
-    it "creates a GET Pdu" do
+    it 'creates a GET Pdu' do
       expect(pdu).to receive(:type=).with(Snmpjr::Pdu::Constants::GET)
       subject.create ['1.2.3.4']
     end
 
-    it "adds an SMI variable binding containing an oid to the pdu" do
+    it 'adds an SMI variable binding containing an oid to the pdu' do
       expect(pdu).to receive(:add).with variable_binding_1
       expect(pdu).to receive(:add).with variable_binding_2
       subject.create ['1.2.3.4', '5.6.7.8']
