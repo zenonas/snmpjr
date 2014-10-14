@@ -1,7 +1,16 @@
 language: ruby
+branches:
+  only:
+    - master
+    - /^v[0-9]+\.[0-9]+\.[0-9]+/
+env:
+  global:
+    - CODECLIMATE_REPO_TOKEN=151e29085225a0d503821bd67ad8d5dadddb7352fe0d585512c325990c85492b
 rvm:
 - jruby-1.7.0
 - jruby-1.7.16
+script:
+- bundle exec rake
 deploy:
   provider: rubygems
   api_key:

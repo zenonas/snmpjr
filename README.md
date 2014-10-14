@@ -34,7 +34,7 @@ Or install it yourself as:
 
 ```ruby
 # Initialize Snmpjr with host, port and a community
-snmp = Snmpjr.new(:host => '127.0.0.1', :port => 161, :community => 'public')
+snmp = Snmpjr.new(host: '127.0.0.1', port: 161, community: 'public')
 
 # Call get on any single Oid
 snmp.get '1.3.6.1.2.1.1.1.0'
