@@ -1,5 +1,6 @@
 require 'snmpjr'
 require 'snmpjr/response'
+require 'snmpjr/target_timeout_error'
 
 describe "snmpjr" do
 
@@ -19,11 +20,11 @@ describe "snmpjr" do
 
       context "when an invalid oid is requested" do
 
-        let(:expected) { [Snmpjr::Response.new(:error => 'Invalid first sub-identifier (must be 0, 1, or 2)'),
+        let(:expected) { [Snmpjr::Response.new(:error => 'noSuchInstance'),
                           Snmpjr::Response.new(:value => 'zeus.snmplabs.com')] }
 
         it "returns an error" do
-          expect(subject.get ['6.5.4.3.2.1', '1.3.6.1.2.1.1.5.0']).to eq expected
+          expect(subject.get ['1.3.6.1.2.1.1.5', '1.3.6.1.2.1.1.5.0']).to eq expected
         end
       end
     end
@@ -32,7 +33,9 @@ describe "snmpjr" do
       subject { Snmpjr.new(:host => 'example.com', :port => 161, :community => 'public') }
 
       it "the request times out after 5 seconds" do
-        expect(subject.get '1.3.6.1.2.1.1.1.0').to eq Snmpjr::Response.new(:error => 'Request timed out')
+        expect{
+          subject.get '1.3.6.1.2.1.1.1.0'
+        }.to raise_error(Snmpjr::TargetTimeoutError)
       end
     end
   end

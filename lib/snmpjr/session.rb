@@ -1,5 +1,6 @@
 require 'snmpjr/wrappers/transport'
 require 'snmpjr/response'
+require 'snmpjr/target_timeout_error'
 
 class Snmpjr
   class Session
@@ -15,18 +16,31 @@ class Snmpjr
     def send pdu, target
       begin
         result = @snmp.send(pdu, target)
-        if result.response.nil?
-          Snmpjr::Response.new(:error => 'Request timed out')
-        else
-          Snmpjr::Response.new(:value => result.response.variable_bindings.first.variable.to_s)
-        end
       rescue Exception => error
-        Snmpjr::Response.new(:error => error.to_s)
+        raise RuntimeError.new(error)
+      end
+      if result.response.nil?
+        raise Snmpjr::TargetTimeoutError.new('Request timed out')
+      else
+        result.response.variable_bindings.map{|vb|
+          construct_response(vb)
+        }
       end
     end
 
     def close
       @snmp.close
     end
+
+    private
+
+    def construct_response variable_binding
+      if variable_binding.is_exception
+        Snmpjr::Response.new(:error => variable_binding.variable.to_s)
+      else
+        Snmpjr::Response.new(:value => variable_binding.variable.to_s)
+      end
+    end
+
   end
 end

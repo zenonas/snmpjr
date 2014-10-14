@@ -28,13 +28,20 @@ describe Snmpjr::Session do
   end
 
   describe "#send" do
-    let(:result) { double :result }
+    let(:vb1) { double :vb1 }
+    let(:vb2) { double :vb2 }
+    let(:results) { [vb1, vb2] }
+    let(:response) { double :response }
     let(:pdu) { double :pdu }
     let(:target) { double :target }
 
     before do
-      allow(snmp_session).to receive(:send).and_return result
-      allow(result).to receive_message_chain('response.variable_bindings.first.variable.to_s')
+      allow(snmp_session).to receive(:send).and_return response
+      allow(vb1).to receive_message_chain('variable.to_s')
+      allow(vb1).to receive(:is_exception)
+      allow(vb2).to receive_message_chain('variable.to_s')
+      allow(vb2).to receive(:is_exception)
+      allow(response).to receive_message_chain('response.variable_bindings').and_return(results)
     end
 
     it "sends the pdu to the target" do
@@ -44,23 +51,25 @@ describe Snmpjr::Session do
 
     context 'the requests times out' do
       before do
-        allow(result).to receive(:response).and_return nil
+        allow(response).to receive(:response).and_return nil
       end
 
-      let(:expected_response) { Snmpjr::Response.new(:error => 'Request timed out') }
-      it 'returns a request timeout' do
-        expect(subject.send(pdu, target)).to eq expected_response
+      it 'raises a timeout error' do
+        expect {
+          subject.send(pdu, target)
+        }.to raise_error(Snmpjr::TargetTimeoutError)
       end
     end
 
     context 'an exception is raised' do
       before do
-        allow(snmp_session).to receive(:send).and_raise(RuntimeError.new('Some error'))
+        allow(snmp_session).to receive(:send).and_raise(Exception)
       end
 
-      let(:expected_response) { Snmpjr::Response.new(:error => 'Some error') }
-      it 'returns the error without blowing up' do
-        expect(subject.send(pdu, target)).to eq expected_response
+      it 'catches it and raises a ruby runtime error' do
+        expect{
+          subject.send(pdu, target)
+        }.to raise_error(RuntimeError)
       end
     end
   end
