@@ -14,7 +14,7 @@ describe Snmpjr do
         allow(Snmpjr::Getter).to receive(:new).with(target: community_target, max_oids_per_request: 20).and_return getter
       end
 
-      let(:agent_details) { { host: '127.0.0.1', port: 161, community: 'some_community', timeout: 50 } }
+      let(:agent_details) { { host: '127.0.0.1', port: 161, community: 'some_community', timeout: 50, retries: 50 } }
 
       subject { described_class.new(agent_details.merge({max_oids_per_request: 20})) }
 
