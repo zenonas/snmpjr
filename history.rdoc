@@ -1,3 +1,7 @@
+== 0.1.6 (16 October 2014)
+
+* Allow retries to be specified in the initializer
+
 == 0.1.5 (14 October 2014)
 
 * Allow timeout to be specified in the initializer
