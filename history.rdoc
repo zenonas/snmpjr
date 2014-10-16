@@ -1,3 +1,7 @@
+== 0.1.7 (16 October 2014)
+
+* Fix travis.yml not building tag properly
+
 == 0.1.6 (16 October 2014)
 
 * Allow retries to be specified in the initializer
