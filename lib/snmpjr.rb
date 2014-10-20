@@ -22,10 +22,9 @@ class Snmpjr
                                       )
     getter = Snmpjr::Getter.new(target: target, max_oids_per_request: @max_oids_per_request)
 
-    case oids.class.to_s
-    when 'String'
+    if oids.is_a?(String)
       getter.get oids
-    when 'Array'
+    elsif oids.is_a?(Array)
       getter.get_multiple oids
     else
       raise ArgumentError.new 'You can request a single Oid using a String, or multiple using an Array'
