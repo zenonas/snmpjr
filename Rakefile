@@ -1,5 +1,5 @@
 require 'rake/clean'
-require 'rake_rack'
+require 'rake_n_bake'
 require 'rubocop/rake_task'
 
 @external_dependencies = %w( jruby java )
@@ -8,9 +8,9 @@ RuboCop::RakeTask.new
 
 task default: [
   :clean,
-  :"rake_rack:check_external_dependencies",
-  :"rake_rack:code_quality:all",
-  :"rake_rack:rspec",
-  :"rake_rack:coverage:check_specs",
-  :"rake_rack:ok"
+  :"bake:check_external_dependencies",
+  :"bake:code_quality:all",
+  :"bake:rspec",
+  :"bake:coverage:check_specs",
+  :"bake:ok"
 ]
