@@ -4,6 +4,7 @@ require 'snmpjr/target_timeout_error'
 
 class Snmpjr
   class Session
+    attr_reader :snmp
 
     def initialize
       @snmp = Snmpjr::Wrappers::Snmp.new(Snmpjr::Wrappers::Transport::DefaultUdpTransportMapping.new)
