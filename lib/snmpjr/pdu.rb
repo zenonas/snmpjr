@@ -18,9 +18,5 @@ class Snmpjr
       pdu
     end
 
-    def self.createPDU target
-      Snmpjr::Wrappers::PDU.new
-    end
-
   end
 end

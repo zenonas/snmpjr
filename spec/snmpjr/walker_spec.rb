@@ -60,7 +60,20 @@ describe Snmpjr::Walker do
           subject.walk oid
         }.to raise_error Snmpjr::TargetTimeoutError
       end
+    end
 
+    context 'when a random error occurs' do
+      let(:tree_event_1) { double :tree_event_1 }
+      before do
+        allow(tree_event_1).to receive(:is_error?).and_return true
+        allow(tree_event_1).to receive(:error_message).and_return 'noAccess'
+      end
+
+      it 'raises a runtime error' do
+        expect{
+          subject.walk oid
+        }.to raise_error RuntimeError
+      end
     end
 
     context 'when a walk returns no variable bindings' do
