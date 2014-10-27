@@ -1,5 +1,4 @@
 require "snmpjr/version"
-require "snmpjr/wrappers/agent"
 require 'snmpjr/wrappers/smi'
 require "snmpjr/getter"
 require "snmpjr/walker"
