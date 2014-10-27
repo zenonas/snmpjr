@@ -9,7 +9,8 @@ Please note the gem is still in early develpment. Do not use as of yet!
 
 ## Features
 
-* Simple Synchronous SNMP v2c Get requests
+* Simple Synchronous SNMP V2 Get requests
+* Synchronous SNMP V2 Walk
 
 ## Requirements
 
@@ -36,8 +37,8 @@ Or install it yourself as:
 
 ```ruby
 # Initialize Snmpjr with host, port and a community
+# Optional Params. (port, retries, timeout)
 snmp = Snmpjr.new(host: '127.0.0.1', port: 161, community: 'public')
-Optional Params. (retries, timeout)
 
 # Call get on any single Oid
 snmp.get '1.3.6.1.2.1.1.1.0'
@@ -47,14 +48,14 @@ snmp.get '1.3.6.1.2.1.1.1.0'
 snmp.get ['1.3.6.1.2.1.1.1.0', '1.3.6.1.2.1.1.3.0']
 => [Snmpjr::Response.new(value: 'First result'), Snmpjr::Response.new(value: 'Second result')]
 
-Response objects respond to error?
+# Response objects respond to error?
 
 # Call walk on an Oid
 snmp.walk '1.3.6.1.2.1.1.1'
-=> [Snmpjr::Response.new(value: 'First response')..Snmpjr::Response.new(value: 'First response')]
+=> [Snmpjr::Response.new(value: 'First response')..Snmpjr::Response.new(value: 'Last response')]
 ```
 
-Snmpjr will catch and raise any exceptions that happen in Java land as RuntimeErrors preserving the message.
+Snmpjr will catch and raise any exceptions that happen in Java land and raise them as RuntimeErrors while preserving the message.
 
 When you request an Array of Oids these will be pulled sequentially
 
