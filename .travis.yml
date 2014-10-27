@@ -2,7 +2,7 @@ language: ruby
 branches:
   only:
     - master
-    - /^[0-9]+\.[0-9]+\.[0-9]+/
+    - /^v[0-9]+\.[0-9]+\.[0-9]+/
 env:
   global:
     - CODECLIMATE_REPO_TOKEN=151e29085225a0d503821bd67ad8d5dadddb7352fe0d585512c325990c85492b

@@ -1,3 +1,7 @@
+== v0.2.0 (27 October 2014)
+
+* Add SNMP Walk functionality
+
 == 0.1.7 (16 October 2014)
 
 * Fix travis.yml not building tag properly
