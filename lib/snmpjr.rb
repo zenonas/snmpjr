@@ -1,4 +1,6 @@
 require "snmpjr/version"
+require "snmpjr/wrappers/agent"
+require 'snmpjr/wrappers/smi'
 require "snmpjr/getter"
 require "snmpjr/walker"
 require "snmpjr/target"
@@ -36,7 +38,7 @@ class Snmpjr
 
   def walk oid
     if oid.is_a?(String)
-      Snmpjr::Walker.new(target: @target).walk oid
+      Snmpjr::Walker.new(target: @target).walk Snmpjr::Wrappers::SMI::OID.new(oid)
     else
       raise ArgumentError.new 'The oid needs to be passed in as a String'
     end

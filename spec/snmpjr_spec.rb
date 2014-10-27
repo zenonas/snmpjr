@@ -9,7 +9,7 @@ describe Snmpjr do
 
   before do
     allow(Snmpjr::Target).to receive(:new).and_return target
-    allow(target).to receive(:create).with(agent_details).and_return community_target    
+    allow(target).to receive(:create).with(agent_details).and_return community_target
   end
 
   describe "#get" do
@@ -47,13 +47,15 @@ describe Snmpjr do
 
   describe '#walk' do
     let(:walker) { double Snmpjr::Walker }
+    let(:oid) { double :oid }
 
     before do
       allow(Snmpjr::Walker).to receive(:new).with(target: community_target).and_return walker
+      allow(Snmpjr::Wrappers::SMI::OID).to receive(:new).with('1.3.6.1.1').and_return oid
     end
     context 'when a string is passed' do
       it 'performs a synchronous walk' do
-        expect(walker).to receive(:walk).with('1.3.6.1.1')
+        expect(walker).to receive(:walk).with(oid)
         subject.walk '1.3.6.1.1'
       end
     end
