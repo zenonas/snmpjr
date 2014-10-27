@@ -1,3 +1,5 @@
 AllCops:
   Exclude:
     - 'vendor/**/*'
+Metrics/LineLength:
+  Max: 132
