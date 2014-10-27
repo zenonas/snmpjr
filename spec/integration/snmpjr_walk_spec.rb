@@ -11,14 +11,13 @@ describe "snmpjr" do
       it 'can perform a simple synchronous walk request on an snmp agent' do
         response = subject.walk '1.3.6.1.2.1.1'
         expect(response.count).to eq 11
-        expect(response.first.value).to eq 'SunOS zeus.snmplabs.com 4.1.3_U1 1 sun4m'
-        expect(response.last.value).to eq 'Timeticks: (1) 0:00:00.01'
+        expect(response.first.to_s).to eq 'SunOS zeus.snmplabs.com 4.1.3_U1 1 sun4m'
+        expect(response.last.to_s).to match /^\d+\:\d+:\d+\.\d+$/
       end
 
-      context "when an invalid oid is requested" do
-
-        it 'returns an error' do
-          expect(subject.walk '1.3.6.1.5').to eq Snmpjr::Response.new(error: 'noSuchInstance') 
+      context "when a non existent subtree is walked" do
+        it 'returns an empty array' do
+          expect(subject.walk '1.3.6.1.5').to eq []
         end
       end
     end
