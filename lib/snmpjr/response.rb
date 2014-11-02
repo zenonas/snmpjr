@@ -20,6 +20,7 @@ class Snmpjr
     end
 
     def ==(other)
+      return false unless other.instance_of?(self.class)
       @error == other.error && to_s == other.to_s
     end
   end

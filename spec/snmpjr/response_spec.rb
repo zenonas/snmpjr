@@ -54,5 +54,17 @@ describe Snmpjr::Response do
         expect(described_class.new(error: 'some error')).to_not eq other
       end
     end
+
+    context 'when the objects are not of the same class' do
+      let(:other) { double :response }
+      before do
+        allow(other).to receive(:error).and_return ''
+        allow(other).to receive(:to_s).and_return 'some value'
+      end
+
+      it 'returns false' do
+        expect(described_class.new(value: 'some value')).to_not eq other
+      end
+    end
   end
 end
