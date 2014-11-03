@@ -19,7 +19,6 @@ describe Snmpjr do
       allow(Snmpjr::Getter).to receive(:new).with(target: community_target, max_oids_per_request: 20).and_return getter
     end
 
-
     subject { described_class.new(agent_details.merge({max_oids_per_request: 20})) }
 
     context 'when passed a single oid' do
