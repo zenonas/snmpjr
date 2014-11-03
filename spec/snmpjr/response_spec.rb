@@ -62,6 +62,13 @@ describe Snmpjr::Response do
       end
     end
 
+    context 'when the oids are different' do
+      let(:other) { Snmpjr::Response.new(oid: 'some oid', error: 'some error') }
+      it 'returns true' do
+        expect(described_class.new(oid: 'another oid', error: 'some error')).to_not eq other
+      end
+    end
+
     context 'when the objects are not of the same class' do
       let(:other) { double :response }
       before do

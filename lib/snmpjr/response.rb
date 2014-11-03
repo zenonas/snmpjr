@@ -22,7 +22,7 @@ class Snmpjr
 
     def ==(other)
       return false unless other.instance_of?(self.class)
-      @error == other.error && to_s == other.to_s
+      @error == other.error && to_s == other.to_s && @oid == other.oid
     end
   end
 end
