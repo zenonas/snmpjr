@@ -29,7 +29,7 @@ class Snmpjr
 
     def extract_variable_bindings variable_bindings
       variable_bindings.flat_map {|vb|
-        Snmpjr::Response.new(value: vb.variable.to_s)
+        Snmpjr::Response.new(oid: vb.oid.to_s, value: vb.variable.to_s)
       }
     end
 
