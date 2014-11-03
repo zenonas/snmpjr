@@ -24,7 +24,6 @@ describe Snmpjr::Session do
       subject.start
       expect(snmp_session).to have_received(:listen)
     end
-
   end
 
   describe '#send' do
@@ -38,8 +37,10 @@ describe Snmpjr::Session do
     before do
       allow(snmp_session).to receive(:send).and_return response
       allow(vb1).to receive_message_chain('variable.to_s')
+      allow(vb1).to receive_message_chain('oid.to_s')
       allow(vb1).to receive(:is_exception)
       allow(vb2).to receive_message_chain('variable.to_s')
+      allow(vb2).to receive_message_chain('oid.to_s')
       allow(vb2).to receive(:is_exception)
       allow(response).to receive_message_chain('response.variable_bindings').and_return(results)
     end

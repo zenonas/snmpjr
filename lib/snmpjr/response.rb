@@ -1,10 +1,11 @@
 class Snmpjr
   class Response
-    attr_reader :error
+    attr_reader :error, :oid
 
     def initialize response = {}
       @error = response[:error] || ''
       @value = response[:value] || ''
+      @oid = response[:oid] || ''
     end
 
     def error?
@@ -21,7 +22,7 @@ class Snmpjr
 
     def ==(other)
       return false unless other.instance_of?(self.class)
-      @error == other.error && to_s == other.to_s
+      @error == other.error && to_s == other.to_s && @oid == other.oid
     end
   end
 end

@@ -86,8 +86,8 @@ describe Snmpjr::Walker do
     end
 
     it 'performs a synchronous walk' do
-      expect(subject.walk oid).to match_array [Snmpjr::Response.new(value: vb1.variable.to_s),
-                                                         Snmpjr::Response.new(value: vb2.variable.to_s)]
+      expect(subject.walk oid).to match_array [Snmpjr::Response.new(oid: vb1.oid.to_s, value: vb1.variable.to_s),
+                                               Snmpjr::Response.new(oid: vb2.oid.to_s, value: vb2.variable.to_s)]
     end
 
     it 'closes the snmp session' do
