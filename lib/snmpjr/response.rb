@@ -1,10 +1,11 @@
 class Snmpjr
   class Response
-    attr_reader :error
+    attr_reader :error, :oid
 
     def initialize response = {}
       @error = response[:error] || ''
       @value = response[:value] || ''
+      @oid = response[:oid] || ''
     end
 
     def error?
