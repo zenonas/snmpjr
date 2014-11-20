@@ -12,14 +12,7 @@ class Snmpjr
   end
 
   def initialize version
-    #@host = options.fetch(:host)
-    #@port = options.fetch(:port) { 161 }
-    #@community = options.fetch(:community)
-    #@timeout = options.fetch(:timeout) { 5000 }
-    #@retries = options.fetch(:retries) { 0 }
-
     @target = Snmpjr::Target.new.create(configuration)
-    #@max_oids_per_request = options.fetch(:max_oids_per_request) { 30 }
   end
 
   def configuration
