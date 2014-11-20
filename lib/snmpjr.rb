@@ -1,3 +1,4 @@
+require "snmpjr/configuration_v2c"
 require "snmpjr/version"
 require 'snmpjr/wrappers/smi'
 require "snmpjr/getter"
@@ -5,26 +6,32 @@ require "snmpjr/walker"
 require "snmpjr/target"
 
 class Snmpjr
+  module Version
+    V2C = 1
+    V3 = 3
+  end
 
-  def initialize options = {}
-    @host = options.fetch(:host)
-    @port = options.fetch(:port) { 161 }
-    @community = options.fetch(:community)
-    @timeout = options.fetch(:timeout) { 5000 }
-    @retries = options.fetch(:retries) { 0 }
+  def initialize version
+    #@host = options.fetch(:host)
+    #@port = options.fetch(:port) { 161 }
+    #@community = options.fetch(:community)
+    #@timeout = options.fetch(:timeout) { 5000 }
+    #@retries = options.fetch(:retries) { 0 }
 
-    @target = Snmpjr::Target.new.create(host: @host,
-                                       port: @port,
-                                       community: @community,
-                                       timeout: @timeout,
-                                       retries: @retries
-                                      )
+    @target = Snmpjr::Target.new.create(configuration)
+    #@max_oids_per_request = options.fetch(:max_oids_per_request) { 30 }
+  end
 
-    @max_oids_per_request = options.fetch(:max_oids_per_request) { 30 }
+  def configuration
+    @configuration ||= Snmpjr::ConfigurationV2C.new
+  end
+
+  def configure
+    yield(configuration) if block_given?
   end
 
   def get oids
-    getter = Snmpjr::Getter.new(target: @target, max_oids_per_request: @max_oids_per_request)
+    getter = Snmpjr::Getter.new(target: @target, config: configuration)
 
     if oids.is_a?(String)
       getter.get oids
