@@ -6,8 +6,10 @@ describe "snmpjr" do
 
   describe 'WALK' do
     context 'when the host is reachable' do
-      subject do
-        Snmpjr.new(Snmpjr::Version::V2C).configure do |config|
+      subject { Snmpjr.new(Snmpjr::Version::V2C) }
+
+      before do
+        subject.configure do |config|
           config.host = 'demo.snmplabs.com'
           config.port = 161
           config.community = 'public'
@@ -29,8 +31,8 @@ describe "snmpjr" do
     end
 
     context 'when the host is unreachable' do
-      subject do
-        Snmpjr.new(Snmpjr::Version::V2C).configure do |config|
+      before do
+        subject.configure do |config|
           config.host = 'demo.snmplabs.com'
           config.port = 161
           config.community = 'public'

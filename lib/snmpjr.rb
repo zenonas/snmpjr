@@ -1,18 +1,13 @@
-require "snmpjr/configuration_v2c"
-require "snmpjr/version"
+require 'snmpjr/configuration_v2c'
 require 'snmpjr/wrappers/smi'
 require "snmpjr/getter"
-require "snmpjr/walker"
+require 'snmpjr/walker'
+require 'snmpjr/version'
 require "snmpjr/target"
 
 class Snmpjr
-  module Version
-    V2C = 1
-    V3 = 3
-  end
-
   def initialize version
-    @target = Snmpjr::Target.new.create(configuration)
+
   end
 
   def configuration
@@ -24,7 +19,7 @@ class Snmpjr
   end
 
   def get oids
-    getter = Snmpjr::Getter.new(target: @target, config: configuration)
+    getter = Snmpjr::Getter.new(target: target, config: configuration)
 
     if oids.is_a?(String)
       getter.get oids
@@ -37,10 +32,16 @@ class Snmpjr
 
   def walk oid
     if oid.is_a?(String)
-      Snmpjr::Walker.new(target: @target).walk Snmpjr::Wrappers::SMI::OID.new(oid)
+      Snmpjr::Walker.new(target: target).walk Snmpjr::Wrappers::SMI::OID.new(oid)
     else
       raise ArgumentError.new 'The oid needs to be passed in as a String'
     end
   end
 
+
+  private
+
+  def target
+    Snmpjr::Target.new.create(configuration)
+  end
 end
