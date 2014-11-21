@@ -2,7 +2,7 @@ require 'snmpjr'
 require 'snmpjr/response'
 require 'snmpjr/target_timeout_error'
 
-describe "snmpjr" do
+describe "snmpjr for snmp v2c" do
 
   describe 'WALK' do
     subject { Snmpjr.new(Snmpjr::Version::V2C) }

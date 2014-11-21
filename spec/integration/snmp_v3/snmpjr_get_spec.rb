@@ -2,17 +2,23 @@ require 'snmpjr'
 require 'snmpjr/response'
 require 'snmpjr/target_timeout_error'
 
-describe "snmpjr" do
+describe "snmpjr for snmp v3" do
 
   describe 'GET' do
-    subject { Snmpjr.new(Snmpjr::Version::V2C) }
+    subject { Snmpjr.new(Snmpjr::Version::V3) }
 
     context 'when the host is reachable' do
       before do
         subject.configure do |config|
           config.host = 'demo.snmplabs.com'
           config.port = 161
-          config.community = 'public'
+          config.context = '80004fb805636c6f75644dab22cc'
+          config.user = 'usr-sha-des'
+          config.security_level = 'authPriv'
+          config.authentication_protocol = 'SHA'
+          config.authentication_key = 'authkey1'
+          config.privacy_protocol = 'DES'
+          config.privacy_key = 'privkey1'
         end
       end
 
@@ -42,7 +48,13 @@ describe "snmpjr" do
         subject.configure do |config|
           config.host = 'demo.snmplabs.com'
           config.port = 161
-          config.community = 'public'
+          config.context = '80004fb805636c6f75644dab22cc'
+          config.user = 'usr-sha-des'
+          config.security_level = 'authPriv'
+          config.authentication_protocol = 'SHA'
+          config.authentication_key = 'authkey1'
+          config.privacy_protocol = 'DES'
+          config.privacy_key = 'privkey1'
           config.timeout = 50
         end
       end
