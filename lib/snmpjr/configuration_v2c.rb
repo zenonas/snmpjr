@@ -1,11 +1,7 @@
-class Snmpjr
-  class ConfigurationV2C
-    attr_accessor :host, :port, :community, :retries, :timeout, :max_oids_per_request
+require 'snmpjr/configuration'
 
-    def initialize
-      @retries = 0
-      @timeout = 5000
-      @max_oids_per_request = 20
-    end
+class Snmpjr
+  class ConfigurationV2C < Configuration
+    attr_accessor :community
   end
 end
