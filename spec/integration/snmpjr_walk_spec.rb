@@ -5,9 +5,9 @@ require 'snmpjr/target_timeout_error'
 describe "snmpjr" do
 
   describe 'WALK' do
-    context 'when the host is reachable' do
-      subject { Snmpjr.new(Snmpjr::Version::V2C) }
+    subject { Snmpjr.new(Snmpjr::Version::V2C) }
 
+    context 'when the host is reachable' do
       before do
         subject.configure do |config|
           config.host = 'demo.snmplabs.com'

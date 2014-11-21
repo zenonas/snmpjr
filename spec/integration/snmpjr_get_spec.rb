@@ -5,9 +5,9 @@ require 'snmpjr/target_timeout_error'
 describe "snmpjr" do
 
   describe 'GET' do
-    context 'when the host is reachable' do
-      subject { Snmpjr.new(Snmpjr::Version::V2C) }
+    subject { Snmpjr.new(Snmpjr::Version::V2C) }
 
+    context 'when the host is reachable' do
       before do
         subject.configure do |config|
           config.host = 'demo.snmplabs.com'
@@ -26,7 +26,7 @@ describe "snmpjr" do
         expect(subject.get ['1.3.6.1.2.1.1.1.0', '1.3.6.1.2.1.1.5.0']).to eq expected
       end
 
-      context "when an invalid oid is requested" do
+     context "when an invalid oid is requested" do
 
         let(:expected) { [Snmpjr::Response.new(oid: '1.3.6.1.2.1.1.5', error: 'noSuchInstance'),
                           Snmpjr::Response.new(oid: '1.3.6.1.2.1.1.5.0', value: 'zeus.snmplabs.com')] }

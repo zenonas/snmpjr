@@ -43,7 +43,7 @@ describe Snmpjr::TargetV2C do
     end
 
     it 'returns the SNMP4J community target' do
-      expect(subject.create(configuration)).to be_a(Snmpjr::Wrappers::CommunityTarget)
+      expect(subject.create(configuration)).to eq(community_target)
     end
   end
 end
