@@ -19,15 +19,34 @@ describe Snmpjr do
         expect(described_class.new(Snmpjr::Version::V2C).configuration).to be_a(Snmpjr::ConfigurationV2C)
       end
     end
+
+    context "when we are working with SNMP V3" do
+      it "returns a Configuration for SNMP V3" do
+        expect(described_class.new(Snmpjr::Version::V3).configuration).to be_a(Snmpjr::ConfigurationV3)
+      end
+    end
   end
 
   describe "#configure" do
-    it "yields an Snmpjr V2C configuration" do
-      expect {|block|
-        Snmpjr.new(Snmpjr::Version::V2C).configure(&block)
-      }.to yield_control
-      Snmpjr.new(Snmpjr::Version::V2C).configure do |config|
-        expect(config).to be_a(Snmpjr::ConfigurationV2C)
+    context "when we are working with SNMP V2" do
+      it "yields an Snmpjr V2C configuration" do
+        expect {|block|
+          Snmpjr.new(Snmpjr::Version::V2C).configure(&block)
+        }.to yield_control
+        Snmpjr.new(Snmpjr::Version::V2C).configure do |config|
+          expect(config).to be_a(Snmpjr::ConfigurationV2C)
+        end
+      end
+    end
+
+    context "when we are working with SNMP V3" do
+      it "yields an Snmpjr V3 configuration" do
+        expect {|block|
+          Snmpjr.new(Snmpjr::Version::V3).configure(&block)
+        }.to yield_control
+        Snmpjr.new(Snmpjr::Version::V3).configure do |config|
+          expect(config).to be_a(Snmpjr::ConfigurationV3)
+        end
       end
     end
   end

@@ -1,4 +1,5 @@
 require 'snmpjr/configuration_v2c'
+require 'snmpjr/configuration_v3'
 require 'snmpjr/wrappers/smi'
 require "snmpjr/getter"
 require 'snmpjr/walker'
@@ -6,12 +7,18 @@ require 'snmpjr/version'
 require "snmpjr/target"
 
 class Snmpjr
-  def initialize version
 
+  CONFIGURATION_VERSION = {
+    Snmpjr::Version::V2C => Snmpjr::ConfigurationV2C,
+    Snmpjr::Version::V3 => Snmpjr::ConfigurationV3
+  }
+
+  def initialize version
+    @version = version
   end
 
   def configuration
-    @configuration ||= Snmpjr::ConfigurationV2C.new
+    @configuration ||= CONFIGURATION_VERSION.fetch(@version).new
   end
 
   def configure
