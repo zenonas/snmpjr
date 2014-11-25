@@ -7,6 +7,7 @@ class Snmpjr
     attr_reader :snmp
 
     def initialize
+      raise NotImplementedError.new 'You cannot use the top level session use SessionV2C or SessionV3 appropriately'
       @snmp = Snmpjr::Wrappers::Snmp.new(Snmpjr::Wrappers::Transport::DefaultUdpTransportMapping.new)
     end
 
