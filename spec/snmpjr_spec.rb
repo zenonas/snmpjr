@@ -51,13 +51,37 @@ describe Snmpjr do
     end
   end
 
+  let(:pdu_factory) { double :pdu_factory }
+
   describe "#get" do
     let(:getter) { double Snmpjr::Getter }
 
     before do
       allow(Snmpjr::ConfigurationV2C).to receive(:new).and_return configuration
-      allow(Snmpjr::Getter).to receive(:new).with(target: created_target, config: configuration).and_return getter
+      allow(Snmpjr::ConfigurationV3).to receive(:new).and_return configuration
+      allow(Snmpjr::Getter).to receive(:new).with(target: created_target, pdu: pdu_factory, config: configuration).and_return getter
+      allow(Snmpjr::PduV2C).to receive(:new).and_return pdu_factory
+      allow(Snmpjr::PduV3).to receive(:new).and_return pdu_factory
+      allow(getter).to receive(:get)
     end
+
+    context 'when working with SNMPV2C' do
+      subject { described_class.new(Snmpjr::Version::V2C) }
+      it 'passes a PduV2C to the getter' do
+        expect(Snmpjr::Getter).to receive(:new).with(target: created_target, pdu: pdu_factory, config: configuration)
+        subject.get '1.2.3.4.5.6'
+      end
+    end
+
+    context 'when working with SNMPV3' do
+      subject { described_class.new(Snmpjr::Version::V3) }
+
+      it 'passes a PduV3 to the getter' do
+        expect(Snmpjr::Getter).to receive(:new).with(target: created_target, pdu: pdu_factory, config: configuration)
+        subject.get '1.2.3.4.5.6'
+      end
+    end
+
 
     context 'when passed a single oid' do
       it 'performs a synchronous get' do
@@ -87,9 +111,27 @@ describe Snmpjr do
     let(:oid) { double :oid }
 
     before do
-      allow(Snmpjr::Walker).to receive(:new).with(target: created_target).and_return walker
+      allow(Snmpjr::Walker).to receive(:new).with(target: created_target, pdu: pdu_factory).and_return walker
       allow(Snmpjr::Wrappers::SMI::OID).to receive(:new).with('1.3.6.1.1').and_return oid
+      allow(Snmpjr::PduV3).to receive(:new).and_return pdu_factory
+      allow(Snmpjr::PduV2C).to receive(:new).and_return pdu_factory
+      allow(walker).to receive(:walk)
     end
+
+    context 'when working with SNMPV2' do
+      it 'passes a PduV2 to the walker' do
+        expect(Snmpjr::Walker).to receive(:new).with(target: created_target, pdu: pdu_factory)
+        subject.walk '1.3.6.1.1'
+      end
+    end
+
+    context 'when working with SNMPV3' do
+      it 'passes a PduV3 to the walker' do
+        expect(Snmpjr::Walker).to receive(:new).with(target: created_target, pdu: pdu_factory)
+        subject.walk '1.3.6.1.1'
+      end
+    end
+
     context 'when a string is passed' do
       it 'performs a synchronous walk' do
         expect(walker).to receive(:walk).with(oid)

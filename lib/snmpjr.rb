@@ -1,5 +1,7 @@
 require 'snmpjr/configuration_v2c'
 require 'snmpjr/configuration_v3'
+require 'snmpjr/pdu_v2c'
+require 'snmpjr/pdu_v3'
 require 'snmpjr/wrappers/smi'
 require "snmpjr/getter"
 require 'snmpjr/walker'
@@ -11,6 +13,11 @@ class Snmpjr
   CONFIGURATION_VERSION = {
     Snmpjr::Version::V2C => Snmpjr::ConfigurationV2C,
     Snmpjr::Version::V3 => Snmpjr::ConfigurationV3
+  }
+
+  PDU_VERSION = {
+    Snmpjr::Version::V2C => Snmpjr::PduV2C,
+    Snmpjr::Version::V3 => Snmpjr::PduV3
   }
 
   def initialize version
@@ -26,7 +33,7 @@ class Snmpjr
   end
 
   def get oids
-    getter = Snmpjr::Getter.new(target: target, config: configuration)
+    getter = Snmpjr::Getter.new(target: target, pdu: PDU_VERSION.fetch(@version).new, config: configuration)
 
     if oids.is_a?(String)
       getter.get oids
@@ -39,12 +46,11 @@ class Snmpjr
 
   def walk oid
     if oid.is_a?(String)
-      Snmpjr::Walker.new(target: target).walk Snmpjr::Wrappers::SMI::OID.new(oid)
+      Snmpjr::Walker.new(target: target, pdu: PDU_VERSION.fetch(@version).new).walk Snmpjr::Wrappers::SMI::OID.new(oid)
     else
       raise ArgumentError.new 'The oid needs to be passed in as a String'
     end
   end
-
 
   private
 
