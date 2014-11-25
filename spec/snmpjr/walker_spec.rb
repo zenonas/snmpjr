@@ -8,7 +8,7 @@ describe Snmpjr::Walker do
   let(:pdu_factory) { double Snmpjr::Wrappers::Util::DefaultPDUFactory }
   let(:tree_util) { double Snmpjr::Wrappers::Util::TreeUtils }
 
-  subject { described_class.new(target: target) }
+  subject { described_class.new(target: target, session: session) }
 
   let(:vb1) { Snmpjr::Wrappers::SMI::VariableBinding.new(
     Snmpjr::Wrappers::SMI::OID.new('1.3.6'),
@@ -25,7 +25,6 @@ describe Snmpjr::Walker do
 
   before do
     allow(Snmpjr::Wrappers::Util::DefaultPDUFactory).to receive(:new).and_return pdu_factory
-    allow(Snmpjr::Session).to receive(:new).and_return session
 
     allow(Snmpjr::Wrappers::Util::TreeUtils).to receive(:new).with(session.snmp, pdu_factory).and_return tree_util
     allow(tree_util).to receive(:getSubtree).with(target, oid).and_return example_event_responses

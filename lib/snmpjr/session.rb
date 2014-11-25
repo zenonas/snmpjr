@@ -1,6 +1,5 @@
 require 'snmpjr/wrappers/transport'
 require 'snmpjr/response'
-require 'snmpjr/target_timeout_error'
 
 class Snmpjr
   class Session
@@ -8,7 +7,6 @@ class Snmpjr
 
     def initialize
       raise NotImplementedError.new 'You cannot use the top level session use SessionV2C or SessionV3 appropriately'
-      @snmp = Snmpjr::Wrappers::Snmp.new(Snmpjr::Wrappers::Transport::DefaultUdpTransportMapping.new)
     end
 
     def start
@@ -44,5 +42,8 @@ class Snmpjr
       end
     end
 
+  end
+
+  class TargetTimeoutError < StandardError
   end
 end

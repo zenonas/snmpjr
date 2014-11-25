@@ -7,7 +7,7 @@ class Snmpjr
     def initialize args = {}
       @target = args.fetch(:target)
       @max_oids_per_request = args.fetch(:config).max_oids_per_request
-      @session = Snmpjr::Session.new
+      @session = args.fetch(:session)
       @pdu = args.fetch(:pdu)
     end
 

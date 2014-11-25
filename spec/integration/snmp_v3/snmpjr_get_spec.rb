@@ -12,7 +12,6 @@ describe "snmpjr for snmp v3" do
         subject.configure do |config|
           config.host = 'demo.snmplabs.com'
           config.port = 161
-          config.context = '80004fb805636c6f75644dab22cc'
           config.user = 'usr-sha-des'
           config.security_level = 'authPriv'
           config.authentication_protocol = 'SHA'
@@ -48,7 +47,6 @@ describe "snmpjr for snmp v3" do
         subject.configure do |config|
           config.host = 'demo.snmplabs.com'
           config.port = 161
-          config.context = '80004fb805636c6f75644dab22cc'
           config.user = 'usr-sha-des'
           config.security_level = 'authPriv'
           config.authentication_protocol = 'SHA'

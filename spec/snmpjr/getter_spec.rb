@@ -9,11 +9,10 @@ describe Snmpjr::Getter do
 
   let(:configuration) { Snmpjr::Configuration.new }
 
-  subject { described_class.new(target: target, pdu: pdu, config: configuration) }
+  subject { described_class.new(session: session, target: target, pdu: pdu, config: configuration) }
 
   before do
     allow(pdu).to receive(:create).with(['1.2.3.4.5.6']).and_return created_pdu_single
-    allow(Snmpjr::Session).to receive(:new).and_return session
     allow(session).to receive(:start)
     allow(session).to receive(:send).with(created_pdu_single, target).and_return ['Foo']
     allow(session).to receive(:close)

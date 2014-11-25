@@ -5,7 +5,7 @@ require 'snmpjr/target_timeout_error'
 describe "snmpjr for snmp v3" do
 
   describe 'WALK' do
-    subject { Snmpjr.new(Snmpjr::Version::V2C) }
+    subject { Snmpjr.new(Snmpjr::Version::V3) }
 
     context 'when the host is reachable' do
       before do
