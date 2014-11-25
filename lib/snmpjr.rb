@@ -15,11 +15,6 @@ class Snmpjr
     Snmpjr::Version::V3 => Snmpjr::ConfigurationV3
   }
 
-  PDU_VERSION = {
-    Snmpjr::Version::V2C => Snmpjr::PduV2C,
-    Snmpjr::Version::V3 => Snmpjr::PduV3
-  }
-
   def initialize version
     @version = version
   end
@@ -33,7 +28,12 @@ class Snmpjr
   end
 
   def get oids
-    getter = Snmpjr::Getter.new(target: target, pdu: PDU_VERSION.fetch(@version).new, config: configuration)
+    getter = Snmpjr::Getter.new(
+      session: configuration.create_session,
+      target: configuration.create_target,
+      pdu: configuration.create_pdu,
+      config: configuration
+    )
 
     if oids.is_a?(String)
       getter.get oids
@@ -46,7 +46,11 @@ class Snmpjr
 
   def walk oid
     if oid.is_a?(String)
-      Snmpjr::Walker.new(target: target, pdu: PDU_VERSION.fetch(@version).new).walk Snmpjr::Wrappers::SMI::OID.new(oid)
+      Snmpjr::Walker.new(
+        session: configuration.create_session,
+        target: configuration.create_target,
+        pdu: configuration.create_pdu
+      ).walk Snmpjr::Wrappers::SMI::OID.new(oid)
     else
       raise ArgumentError.new 'The oid needs to be passed in as a String'
     end
