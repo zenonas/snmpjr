@@ -25,6 +25,7 @@ class Snmpjr
 
   def configure
     yield(configuration) if block_given?
+    self
   end
 
   def get oids
