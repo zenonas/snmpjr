@@ -1,9 +1,8 @@
 require 'snmpjr/wrappers/transport'
 require 'snmpjr/response'
-require 'snmpjr/target_timeout_error'
 
 class Snmpjr
-  class Session
+  class SessionV2C
     attr_reader :snmp
 
     def initialize
@@ -43,5 +42,8 @@ class Snmpjr
       end
     end
 
+  end
+
+  class TargetTimeoutError < StandardError
   end
 end

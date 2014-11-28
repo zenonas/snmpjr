@@ -1,6 +1,6 @@
 require production_code
 
-describe Snmpjr::Pdu do
+describe Snmpjr::PduV2C do
   describe '#create' do
 
     let(:pdu) { double Snmpjr::Wrappers::PDU }
@@ -19,7 +19,7 @@ describe Snmpjr::Pdu do
       allow(pdu).to receive(:add)
     end
     it 'creates a GET Pdu' do
-      expect(pdu).to receive(:type=).with(Snmpjr::Pdu::Constants::GET)
+      expect(pdu).to receive(:type=).with(Snmpjr::PduV2C::Constants::GET)
       subject.create ['1.2.3.4']
     end
 

@@ -1,30 +1,37 @@
-require "snmpjr/version"
+require 'snmpjr/configuration_v2c'
+require 'snmpjr/configuration_v3'
 require 'snmpjr/wrappers/smi'
 require "snmpjr/getter"
-require "snmpjr/walker"
-require "snmpjr/target"
+require 'snmpjr/walker'
+require 'snmpjr/version'
 
 class Snmpjr
 
-  def initialize options = {}
-    @host = options.fetch(:host)
-    @port = options.fetch(:port) { 161 }
-    @community = options.fetch(:community)
-    @timeout = options.fetch(:timeout) { 5000 }
-    @retries = options.fetch(:retries) { 0 }
+  CONFIGURATION_VERSION = {
+    Snmpjr::Version::V2C => Snmpjr::ConfigurationV2C,
+    Snmpjr::Version::V3 => Snmpjr::ConfigurationV3
+  }
 
-    @target = Snmpjr::Target.new.create(host: @host,
-                                       port: @port,
-                                       community: @community,
-                                       timeout: @timeout,
-                                       retries: @retries
-                                      )
+  def initialize version
+    @version = version
+  end
 
-    @max_oids_per_request = options.fetch(:max_oids_per_request) { 30 }
+  def configuration
+    @configuration ||= CONFIGURATION_VERSION.fetch(@version).new
+  end
+
+  def configure
+    yield(configuration) if block_given?
+    self
   end
 
   def get oids
-    getter = Snmpjr::Getter.new(target: @target, max_oids_per_request: @max_oids_per_request)
+    getter = Snmpjr::Getter.new(
+      session: configuration.create_session,
+      target: configuration.create_target,
+      pdu: configuration.create_pdu,
+      config: configuration
+    )
 
     if oids.is_a?(String)
       getter.get oids
@@ -37,10 +44,13 @@ class Snmpjr
 
   def walk oid
     if oid.is_a?(String)
-      Snmpjr::Walker.new(target: @target).walk Snmpjr::Wrappers::SMI::OID.new(oid)
+      Snmpjr::Walker.new(
+        session: configuration.create_session,
+        target: configuration.create_target,
+        pdu: configuration.create_pdu
+      ).walk Snmpjr::Wrappers::SMI::OID.new(oid)
     else
       raise ArgumentError.new 'The oid needs to be passed in as a String'
     end
   end
-
 end

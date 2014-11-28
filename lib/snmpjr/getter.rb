@@ -6,8 +6,9 @@ class Snmpjr
 
     def initialize args = {}
       @target = args.fetch(:target)
-      @max_oids_per_request = args[:max_oids_per_request] || 30
-      @session = Snmpjr::Session.new
+      @max_oids_per_request = args.fetch(:config).max_oids_per_request
+      @session = args.fetch(:session)
+      @pdu = args.fetch(:pdu)
     end
 
     def get_multiple oids
@@ -29,7 +30,7 @@ class Snmpjr
     private
 
     def get_request oids
-      pdu = Snmpjr::Pdu.new.create oids
+      pdu = @pdu.create oids
       @session.send(pdu, @target)
     end
 

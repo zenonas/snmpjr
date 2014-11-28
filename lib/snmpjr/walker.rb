@@ -6,7 +6,7 @@ class Snmpjr
   class Walker
     def initialize opts = {}
       @target = opts.fetch(:target)
-      @session = Snmpjr::Session.new
+      @session = opts.fetch(:session)
       @tree_utils = Snmpjr::Wrappers::Util::TreeUtils.new(@session.snmp, pdu_factory)
     end
 
