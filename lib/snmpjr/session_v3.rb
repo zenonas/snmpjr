@@ -1,10 +1,10 @@
-require 'snmpjr/session'
+require 'snmpjr/session_v2c'
 require 'snmpjr/wrappers/security'
 require 'snmpjr/wrappers/smi'
 require 'snmpjr/wrappers/mp'
 
 class Snmpjr
-  class SessionV3 < Snmpjr::Session
+  class SessionV3 < Snmpjr::SessionV2C
     AUTHENTICATION_PROTOCOLS = {
       'MD5' => Snmpjr::Wrappers::Security::AuthMD5,
       'SHA' => Snmpjr::Wrappers::Security::AuthSHA

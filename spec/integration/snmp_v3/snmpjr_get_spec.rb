@@ -1,6 +1,6 @@
 require 'snmpjr'
 require 'snmpjr/response'
-require 'snmpjr/session'
+require 'snmpjr/session_v3'
 
 describe "snmpjr for snmp v3" do
 

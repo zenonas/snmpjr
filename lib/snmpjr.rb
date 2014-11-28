@@ -1,12 +1,9 @@
 require 'snmpjr/configuration_v2c'
 require 'snmpjr/configuration_v3'
-require 'snmpjr/pdu_v2c'
-require 'snmpjr/pdu_v3'
 require 'snmpjr/wrappers/smi'
 require "snmpjr/getter"
 require 'snmpjr/walker'
 require 'snmpjr/version'
-require "snmpjr/target"
 
 class Snmpjr
 

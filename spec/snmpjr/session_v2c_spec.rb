@@ -1,6 +1,6 @@
 require production_code
 
-describe Snmpjr::Session do
+describe Snmpjr::SessionV2C do
 
   let(:transport_mapping) { double Snmpjr::Wrappers::Transport::DefaultUdpTransportMapping }
   let(:snmp_session) { double Snmpjr::Wrappers::Snmp }

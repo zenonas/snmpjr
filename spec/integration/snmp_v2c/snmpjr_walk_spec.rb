@@ -1,6 +1,6 @@
 require 'snmpjr'
 require 'snmpjr/response'
-require 'snmpjr/session'
+require 'snmpjr/session_v2c'
 
 describe "snmpjr for snmp v2c" do
 
