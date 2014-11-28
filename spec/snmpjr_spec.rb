@@ -51,6 +51,13 @@ describe Snmpjr do
         end
       end
     end
+
+    it 'returns an instance of Snmpjr' do
+      result = Snmpjr.new(Snmpjr::Version::V3).configure do |config|
+        config.user = 'some_user'
+      end
+      expect(result).to be_a(Snmpjr)
+    end
   end
 
   describe "#get" do
@@ -64,24 +71,16 @@ describe Snmpjr do
     end
 
     context 'when passed a single oid' do
-      it 'performs a synchronous get' do
-        expect(getter).to receive(:get).with('1.2.3.4.5.6')
+      it 'coerces the single oid to an array and gives it to the getter' do
+        expect(getter).to receive(:get).with(['1.2.3.4.5.6'])
         subject.get '1.2.3.4.5.6'
       end
     end
 
     context 'when passed multiple oids' do
-      it 'performs a get multiple using the getter' do
-        expect(getter).to receive(:get_multiple).with(['1.2.3.4.5.6', '6.5.4.3.2.1'])
+      it 'performs a get with the getter' do
+        expect(getter).to receive(:get).with(['1.2.3.4.5.6', '6.5.4.3.2.1'])
         subject.get ['1.2.3.4.5.6', '6.5.4.3.2.1']
-      end
-    end
-
-    context 'when an invalid argument was passed in' do
-      it 'raises an ArgumentError' do
-        expect {
-          subject.get({'oid_value' => '1.3.4.5.6'})
-        }.to raise_error ArgumentError
       end
     end
   end
@@ -97,20 +96,9 @@ describe Snmpjr do
       allow(walker).to receive(:walk)
     end
 
-    context 'when a string is passed' do
-      it 'performs a synchronous walk' do
-        expect(walker).to receive(:walk).with(oid)
-        subject.walk '1.3.6.1.1'
-      end
+    it 'performs a synchronous walk' do
+      expect(walker).to receive(:walk).with(oid)
+      subject.walk '1.3.6.1.1'
     end
-
-    context 'when anything else is passed in' do
-      it 'raises an ArgumentError' do
-        expect {
-          subject.walk({'oid_value' => '1.3.4.5.6'})
-        }.to raise_error ArgumentError
-      end
-    end
-
   end
 end

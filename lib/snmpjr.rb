@@ -26,31 +26,19 @@ class Snmpjr
   end
 
   def get oids
-    getter = Snmpjr::Getter.new(
+    Snmpjr::Getter.new(
       session: configuration.create_session,
       target: configuration.create_target,
       pdu: configuration.create_pdu,
       config: configuration
-    )
-
-    if oids.is_a?(String)
-      getter.get oids
-    elsif oids.is_a?(Array)
-      getter.get_multiple oids
-    else
-      raise ArgumentError.new 'You can request a single Oid using a String, or multiple using an Array'
-    end
+    ).get Array(oids)
   end
 
   def walk oid
-    if oid.is_a?(String)
-      Snmpjr::Walker.new(
-        session: configuration.create_session,
-        target: configuration.create_target,
-        pdu: configuration.create_pdu
-      ).walk Snmpjr::Wrappers::SMI::OID.new(oid)
-    else
-      raise ArgumentError.new 'The oid needs to be passed in as a String'
-    end
+    Snmpjr::Walker.new(
+      session: configuration.create_session,
+      target: configuration.create_target,
+      pdu: configuration.create_pdu
+    ).walk Snmpjr::Wrappers::SMI::OID.new(oid.to_s)
   end
 end
