@@ -13,7 +13,6 @@ class Snmpjr
     PRIVACY_PROTOCOLS = {
       '3DES' => Snmpjr::Wrappers::Security::Priv3DES,
       'DES' => Snmpjr::Wrappers::Security::PrivDES,
-      'AES' => Snmpjr::Wrappers::Security::PrivAES,
       'AES128' => Snmpjr::Wrappers::Security::PrivAES128,
       'AES192' => Snmpjr::Wrappers::Security::PrivAES192,
       'AES256' => Snmpjr::Wrappers::Security::PrivAES256
