@@ -14,6 +14,7 @@ class Snmpjr
         get_request partial_oids
       }.flatten
       @session.close
+      #TODO: Make result be a single object if a single oid was requested
       result
     end
 
