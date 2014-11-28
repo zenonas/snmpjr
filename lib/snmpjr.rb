@@ -53,10 +53,4 @@ class Snmpjr
       raise ArgumentError.new 'The oid needs to be passed in as a String'
     end
   end
-
-  private
-
-  def target
-    Snmpjr::Target.new.create(configuration)
-  end
 end
