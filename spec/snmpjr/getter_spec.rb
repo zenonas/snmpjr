@@ -3,8 +3,8 @@ require 'snmpjr/configuration'
 
 describe Snmpjr::Getter do
   let(:target) { double :target }
-  let(:session) { double Snmpjr::Session }
-  let(:pdu) { double Snmpjr::Pdu }
+  let(:session) { double :session }
+  let(:pdu) { double :pdu }
   let(:created_pdu_single) { double :created_pdu_single }
 
   let(:configuration) { Snmpjr::Configuration.new }

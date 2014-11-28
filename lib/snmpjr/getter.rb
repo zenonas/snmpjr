@@ -1,6 +1,3 @@
-require "snmpjr/pdu"
-require "snmpjr/session"
-
 class Snmpjr
   class Getter
 

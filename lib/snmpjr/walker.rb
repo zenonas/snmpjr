@@ -1,6 +1,7 @@
 require 'snmpjr/wrappers/util'
 require 'snmpjr/wrappers/smi'
-require 'snmpjr/session'
+require 'snmpjr/response'
+require 'snmpjr/session_v2c'
 
 class Snmpjr
   class Walker
