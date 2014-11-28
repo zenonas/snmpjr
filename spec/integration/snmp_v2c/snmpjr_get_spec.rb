@@ -1,6 +1,6 @@
 require 'snmpjr'
 require 'snmpjr/response'
-require 'snmpjr/target_timeout_error'
+require 'snmpjr/session'
 
 describe "snmpjr for snmp v2c" do
 
