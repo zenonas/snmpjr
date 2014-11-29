@@ -4,11 +4,6 @@ require 'snmpjr/version'
 
 class Snmpjr
   class TargetV3
-    SECURITY_LEVELS = {
-      'noAuthNoPriv' => 1,
-      'authNoPriv' => 2,
-      'authPriv' => 3
-    }
 
     def create configuration
       target = Snmpjr::Wrappers::UserTarget.new
@@ -17,7 +12,7 @@ class Snmpjr
       target.version = Snmpjr::Version::V3
       target.retries = configuration.retries
       target.timeout = configuration.timeout
-      target.security_level = SECURITY_LEVELS.fetch(configuration.security_level)
+      target.security_level = configuration.security_level
       target
     end
   end
