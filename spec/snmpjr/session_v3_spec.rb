@@ -8,11 +8,8 @@ describe Snmpjr::SessionV3 do
       config.host = 'demo.snmplabs.com'
       config.port = 161
       config.user = 'usr-sha-des'
-      config.security_level = 'authPriv'
-      config.authentication_protocol = 'SHA'
-      config.authentication_key = 'authkey1'
-      config.privacy_protocol = 'DES'
-      config.privacy_key = 'privkey1'
+      config.authentication 'SHA', 'authkey1'
+      config.privacy 'DES', 'privkey1'
 
       session = described_class.new config
 

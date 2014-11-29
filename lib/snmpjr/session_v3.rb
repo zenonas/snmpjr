@@ -6,16 +6,16 @@ require 'snmpjr/wrappers/mp'
 class Snmpjr
   class SessionV3 < Snmpjr::SessionV2C
     AUTHENTICATION_PROTOCOLS = {
-      'MD5' => Snmpjr::Wrappers::Security::AuthMD5,
-      'SHA' => Snmpjr::Wrappers::Security::AuthSHA
+      'MD5' => Snmpjr::Wrappers::Security::AuthMD5::ID,
+      'SHA' => Snmpjr::Wrappers::Security::AuthSHA::ID
     }
 
     PRIVACY_PROTOCOLS = {
-      '3DES' => Snmpjr::Wrappers::Security::Priv3DES,
-      'DES' => Snmpjr::Wrappers::Security::PrivDES,
-      'AES128' => Snmpjr::Wrappers::Security::PrivAES128,
-      'AES192' => Snmpjr::Wrappers::Security::PrivAES192,
-      'AES256' => Snmpjr::Wrappers::Security::PrivAES256
+      '3DES' => Snmpjr::Wrappers::Security::Priv3DES::ID,
+      'DES' => Snmpjr::Wrappers::Security::PrivDES::ID,
+      'AES128' => Snmpjr::Wrappers::Security::PrivAES128::ID,
+      'AES192' => Snmpjr::Wrappers::Security::PrivAES192::ID,
+      'AES256' => Snmpjr::Wrappers::Security::PrivAES256::ID
     }
 
     def initialize configuration
@@ -43,11 +43,21 @@ class Snmpjr
     def create_usm_user
       Snmpjr::Wrappers::Security::UsmUser.new(
         Snmpjr::Wrappers::SMI::OctetString.new(@config.user),
-        AUTHENTICATION_PROTOCOLS.fetch(@config.authentication_protocol).const_get(:ID),
-        Snmpjr::Wrappers::SMI::OctetString.new(@config.authentication_key),
-        PRIVACY_PROTOCOLS.fetch(@config.privacy_protocol).const_get(:ID),
-        Snmpjr::Wrappers::SMI::OctetString.new(@config.privacy_key)
+        AUTHENTICATION_PROTOCOLS[@config.authentication_protocol],
+        authentication_key,
+        PRIVACY_PROTOCOLS[@config.privacy_protocol],
+        privacy_key
       )
+    end
+
+    def authentication_key
+      return @config.authentication_key if @config.authentication_key.nil?
+      Snmpjr::Wrappers::SMI::OctetString.new(@config.authentication_key)
+    end
+
+    def privacy_key
+      return @config.privacy_key if @config.privacy_key.nil?
+      Snmpjr::Wrappers::SMI::OctetString.new(@config.privacy_key)
     end
   end
 end
