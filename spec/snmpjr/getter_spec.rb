@@ -35,7 +35,7 @@ describe Snmpjr::Getter do
       end
 
       it 'performs a synchronous get' do
-        expect(subject.get ['1.2.3.4.5.6']).to eq ['Foo']
+        expect(subject.get ['1.2.3.4.5.6']).to eq 'Foo'
         expect(session).to have_received(:send).with(created_pdu_single, target)
       end
     end

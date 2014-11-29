@@ -10,12 +10,11 @@ class Snmpjr
 
     def get oids
       @session.start
-      result = oids.each_slice(@max_oids_per_request).map{|partial_oids|
+      results = oids.each_slice(@max_oids_per_request).map{|partial_oids|
         get_request partial_oids
       }.flatten
       @session.close
-      #TODO: Make result be a single object if a single oid was requested
-      result
+      extract_possible_single_result_from results
     end
 
     private
@@ -23,6 +22,11 @@ class Snmpjr
     def get_request oids
       pdu = @pdu.create oids
       @session.send(pdu, @target)
+    end
+
+    def extract_possible_single_result_from results
+      return results.first if results.size.eql?(1)
+      results
     end
 
   end
