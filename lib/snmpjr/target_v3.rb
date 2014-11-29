@@ -4,7 +4,6 @@ require 'snmpjr/version'
 
 class Snmpjr
   class TargetV3
-
     def create configuration
       target = Snmpjr::Wrappers::UserTarget.new
       target.address = Snmpjr::Wrappers::SMI::GenericAddress.parse("udp:#{configuration.host}/#{configuration.port}")

@@ -14,11 +14,8 @@ describe "snmpjr for snmp v3" do
           config.port = 161
           config.context = '80004fb805636c6f75644dab22cc'
           config.user = 'usr-sha-des'
-          config.security_level = 'authPriv'
-          config.authentication_protocol = 'SHA'
-          config.authentication_key = 'authkey1'
-          config.privacy_protocol = 'DES'
-          config.privacy_key = 'privkey1'
+          config.authentication 'SHA', 'authkey1'
+          config.privacy 'DES', 'privkey1'
         end
       end
 
@@ -43,11 +40,8 @@ describe "snmpjr for snmp v3" do
           config.port = 161
           config.context = '80004fb805636c6f75644dab22cc'
           config.user = 'usr-sha-des'
-          config.security_level = 'authPriv'
-          config.authentication_protocol = 'SHA'
-          config.authentication_key = 'authkey1'
-          config.privacy_protocol = 'DES'
-          config.privacy_key = 'privkey1'
+          config.authentication 'SHA', 'authkey1'
+          config.privacy 'DES', 'privkey1'
           config.timeout = 50
         end
       end
