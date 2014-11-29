@@ -11,7 +11,6 @@ describe "snmpjr for snmp v2c" do
       before do
         subject.configure do |config|
           config.host = 'demo.snmplabs.com'
-          config.port = 161
           config.community = 'public'
         end
       end
@@ -41,7 +40,6 @@ describe "snmpjr for snmp v2c" do
       before do
         subject.configure do |config|
           config.host = 'demo.snmplabs.com'
-          config.port = 161
           config.community = 'public'
           config.timeout = 50
         end
