@@ -46,7 +46,6 @@ describe "snmpjr for snmp v3" do
           config.port = 161
           config.user = 'usr-sha-des'
           config.authentication 'SHA', 'authkey1'
-          config.privacy 'DES', 'privkey1'
           config.timeout = 50
         end
       end

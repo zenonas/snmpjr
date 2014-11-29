@@ -13,9 +13,7 @@ describe "snmpjr for snmp v3" do
           config.host = 'demo.snmplabs.com'
           config.port = 161
           config.context = '80004fb805636c6f75644dab22cc'
-          config.user = 'usr-sha-des'
-          config.authentication 'SHA', 'authkey1'
-          config.privacy 'DES', 'privkey1'
+          config.user = 'usr-none-none'
         end
       end
 
@@ -39,9 +37,9 @@ describe "snmpjr for snmp v3" do
           config.host = 'demo.snmplabs.com'
           config.port = 161
           config.context = '80004fb805636c6f75644dab22cc'
-          config.user = 'usr-sha-des'
+          config.user = 'usr-sha-aes256'
           config.authentication 'SHA', 'authkey1'
-          config.privacy 'DES', 'privkey1'
+          config.privacy 'AES256', 'privkey1'
           config.timeout = 50
         end
       end
