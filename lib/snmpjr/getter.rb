@@ -10,10 +10,13 @@ class Snmpjr
 
     def get oids
       @session.start
-      results = oids.each_slice(@max_oids_per_request).map{|partial_oids|
-        get_request partial_oids
-      }.flatten
-      @session.close
+      begin
+        results = oids.each_slice(@max_oids_per_request).map{|partial_oids|
+          get_request partial_oids
+        }.flatten
+      ensure
+        @session.close
+      end
       extract_possible_single_result_from results
     end
 
