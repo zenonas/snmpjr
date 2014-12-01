@@ -3,14 +3,12 @@ Snmpjr
 
 [![Gem Version](https://badge.fury.io/rb/snmpjr.svg)](http://badge.fury.io/rb/snmpjr) [![Build Status](https://travis-ci.org/zenonas/snmpjr.svg?branch=master)](https://travis-ci.org/zenonas/snmpjr) [![Coverage Status](https://img.shields.io/coveralls/zenonas/snmpjr.svg)](https://coveralls.io/r/zenonas/snmpjr?branch=master) [![Code Climate](https://codeclimate.com/github/zenonas/snmpjr/badges/gpa.svg)](https://codeclimate.com/github/zenonas/snmpjr) [![Dependency Status](https://gemnasium.com/zenonas/snmpjr.svg)](https://gemnasium.com/zenonas/snmpjr) [![Inline docs](http://inch-ci.org/github/zenonas/snmpjr.svg?branch=master)](http://inch-ci.org/github/zenonas/snmpjr)
 
-Snmpjr aims to provide a clean and simple interface to use SNMP in your ruby code. It will wrap the popular SNMP4J library in Java.
-
-Please note the gem is still in early develpment. Do not use as of yet!
+Snmpjr aims to provide a clean and simple interface to use SNMP in your ruby code. It wraps the popular SNMP4J library in Java.
 
 ## Features
 
-* Simple Synchronous SNMP V2 Get requests
-* Synchronous SNMP V2 Walk
+* Synchronous SNMP Get and Walk for SNMPv2c and SNMPv3
+* Simple API
 
 ## Requirements
 
@@ -36,9 +34,34 @@ Or install it yourself as:
 ## Usage
 
 ```ruby
-# Initialize Snmpjr with host, port and a community
-# Optional Params. (port, retries, timeout)
-snmp = Snmpjr.new(host: '127.0.0.1', port: 161, community: 'public')
+# Initialize Snmpjr with the version of SNMP you want to work with
+snmp = Snmpjr.new(Snmpjr::Version::V2C).configure do |config|
+  config.host = 'example.com'
+  config.community = 'public'
+  # Optional Parameters
+  config.port = 161 #(default)
+  config.retries = 0 #(default)
+  config.timeout = 5000 #(default)
+  config.max_oids_per_request = 20 #(default)
+end
+
+snmp = Snmpjr.new(Snmpjr::Version::V3).configure do |config|
+  config.host = 'example.com'
+  config.user = 'some user'
+  # Agent dependent options
+  config.authentication 'authentication_protocol*', 'passphrase'
+  config.privacy 'privacy_protocol**', 'passphrase'
+  config.context = '' #(default)
+  # Optional Parameters
+  config.port = 161 #(default)
+  config.retries = 0 #(default)
+  config.timeout = 5000 #(default)
+  config.max_oids_per_request = 20 #(default)
+end
+
+# There is no need to specify options that you wish to default
+# * Authentication Protocols (SHA|MD5)
+# ** Privacy Protocols (DES|3DES|AES128|AES192|AES256)
 
 # Call get on any single Oid
 snmp.get '1.3.6.1.2.1.1.1.0'
@@ -48,7 +71,7 @@ snmp.get '1.3.6.1.2.1.1.1.0'
 snmp.get ['1.3.6.1.2.1.1.1.0', '1.3.6.1.2.1.1.3.0']
 => [Snmpjr::Response.new(value: 'First result'), Snmpjr::Response.new(value: 'Second result')]
 
-# Response objects respond to error?
+# Response objects respond to response.error? that returns true if an SNMP error occured eg. noSuchInstance
 
 # Call walk on an Oid
 snmp.walk '1.3.6.1.2.1.1.1'
@@ -57,7 +80,7 @@ snmp.walk '1.3.6.1.2.1.1.1'
 
 Snmpjr will catch and raise any exceptions that happen in Java land and raise them as RuntimeErrors while preserving the message.
 
-When you request an Array of Oids these will be pulled sequentially
+When you request an Array of Oids these will be packaged in a single PDU up to a maximum(configurable).
 
 ## Contributing
 
