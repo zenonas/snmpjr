@@ -11,10 +11,9 @@ describe "snmpjr for snmp v3" do
       before do
         subject.configure do |config|
           config.host = 'demo.snmplabs.com'
-          config.port = 161
-          config.user = 'usr-sha-des'
+          config.user = 'usr-sha-aes128'
           config.authentication 'SHA', 'authkey1'
-          config.privacy 'DES', 'privkey1'
+          config.privacy 'AES128', 'privkey1'
         end
       end
 
@@ -29,6 +28,14 @@ describe "snmpjr for snmp v3" do
       end
 
      context "when an invalid oid is requested" do
+        before do
+          subject.configure do |config|
+            config.host = 'demo.snmplabs.com'
+            config.user = 'usr-sha-des'
+            config.authentication 'SHA', 'authkey1'
+            config.privacy 'DES', 'privkey1'
+          end
+        end
 
         let(:expected) { [Snmpjr::Response.new(oid: '1.3.6.1.2.1.1.5', error: 'noSuchInstance'),
                           Snmpjr::Response.new(oid: '1.3.6.1.2.1.1.5.0', value: 'zeus.snmplabs.com')] }
