@@ -1,3 +1,5 @@
+== v0.3.1 (02 December 2014)
+
 == v0.3.0 (01 December 2014)
 
 == v0.2.2 (03 November 2014)
