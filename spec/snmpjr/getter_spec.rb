@@ -48,6 +48,21 @@ describe Snmpjr::Getter do
       end
     end
 
+    context 'when there is an uneven split of slices' do
+      before do
+        configuration.max_oids_per_request = 2
+        allow(pdu).to receive(:create).with(['1.2.3.4.5.6', '2.3.4.5.6.7']).and_return created_pdu_multiple_1
+        allow(pdu).to receive(:create).with(['6.5.4.3.2.1']).and_return created_pdu_multiple_2
+        allow(session).to receive(:send).with(created_pdu_multiple_1, target).and_return ['Foo', 'Baz']
+      end
+
+      it 'should not have duplicate results' do
+        expect(subject.get ['1.2.3.4.5.6', '2.3.4.5.6.7', '6.5.4.3.2.1']).to eq(['Foo', 'Baz', 'Bar'])
+        expect(session).to have_received(:send).with(created_pdu_multiple_1, target)
+        expect(session).to have_received(:send).with(created_pdu_multiple_2, target)
+      end
+    end
+
     it 'starts an snmp session' do
       subject.get ['1.2.3.4.5.6', '6.5.4.3.2.1']
       expect(session).to have_received(:start)
