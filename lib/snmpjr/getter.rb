@@ -9,11 +9,12 @@ class Snmpjr
     end
 
     def get oids
+      #TODO: Change it to be a session do end block
       @session.start
       begin
-        results = oids.each_slice(@max_oids_per_request).map{|partial_oids|
+        results = oids.each_slice(@max_oids_per_request).flat_map{|partial_oids|
           get_request partial_oids
-        }.flatten
+        }
       ensure
         @session.close
       end
