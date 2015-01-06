@@ -5,7 +5,7 @@ require 'snmpjr/version'
 
 Gem::Specification.new do |spec|
   spec.name          = 'snmpjr'
-  spec.version       = '0.3.1'
+  spec.version       = '0.3.2'
   spec.authors       = ['Zen Kyprianou']
   spec.email         = ['zen@kyprianou.eu']
   spec.summary       = 'Simple SNMP interface for JRuby'
