@@ -46,9 +46,10 @@ describe "snmpjr for snmp v2c" do
       end
 
       it 'the request times out after 5 seconds' do
+        host_ip = IPSocket.getaddress('demo.snmplabs.com')
         expect{
           subject.get '1.3.6.1.2.1.1.1.0'
-        }.to raise_error(Snmpjr::TargetTimeoutError)
+        }.to raise_error(Snmpjr::TargetTimeoutError, %{Request timed out: #{host_ip}/161, OIDs: ["1.3.6.1.2.1.1.1.0"]})
       end
     end
   end
