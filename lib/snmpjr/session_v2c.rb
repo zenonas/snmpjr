@@ -17,15 +17,19 @@ class Snmpjr
       begin
         result = @snmp.send(pdu, target)
       rescue Exception => error
-        raise RuntimeError.new(error)
+        raise RuntimeError.new("#{error.inspect}: #{error_information pdu, target}")
       end
       if result.response.nil?
-        raise Snmpjr::TargetTimeoutError.new('Request timed out')
+        raise Snmpjr::TargetTimeoutError.new("Request timed out: #{error_information pdu, target}")
       else
         result.response.variable_bindings.map{|vb|
           construct_response(vb)
         }
       end
+    end
+
+    def error_information pdu, target
+      "#{target.address}, OIDs: #{pdu.to_array.map {|binding| binding.oid.to_s }.inspect}"
     end
 
     def close
