@@ -28,10 +28,6 @@ class Snmpjr
       end
     end
 
-    def error_information pdu, target
-      "#{target.address}, OIDs: #{pdu.to_array.map {|binding| binding.oid.to_s }.inspect}"
-    end
-
     def close
       @snmp.close
     end
@@ -46,6 +42,9 @@ class Snmpjr
       end
     end
 
+    def error_information pdu, target
+      "#{target.address}, OIDs: #{pdu.to_array.map {|binding| binding.oid.to_s }.inspect}"
+    end
   end
 
   class TargetTimeoutError < StandardError
