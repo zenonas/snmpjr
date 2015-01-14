@@ -40,6 +40,7 @@ describe Snmpjr::Walker do
       before do
         allow(tree_util).to receive(:getSubtree).with(target, oid).and_raise Exception.new 'noAccess'
       end
+
       it 'raises a runtime error' do
         expect{
           subject.walk oid
@@ -49,6 +50,7 @@ describe Snmpjr::Walker do
 
     context 'when a target times out' do
       let(:tree_event_1) { double :tree_event_1 }
+
       before do
         allow(tree_event_1).to receive(:is_error?).and_return true
         allow(tree_event_1).to receive(:error_message).and_return 'Request timed out.'
@@ -63,6 +65,7 @@ describe Snmpjr::Walker do
 
     context 'when a random error occurs' do
       let(:tree_event_1) { double :tree_event_1 }
+
       before do
         allow(tree_event_1).to receive(:is_error?).and_return true
         allow(tree_event_1).to receive(:error_message).and_return 'noAccess'
@@ -85,8 +88,8 @@ describe Snmpjr::Walker do
     end
 
     it 'performs a synchronous walk' do
-      expect(subject.walk oid).to match_array [Snmpjr::Response.new(oid: vb1.oid.to_s, value: vb1.variable.to_s),
-                                               Snmpjr::Response.new(oid: vb2.oid.to_s, value: vb2.variable.to_s)]
+      expect(subject.walk oid).to match_array [Snmpjr::Response.new(oid: vb1.oid.to_s, value: vb1.variable.to_s, type: vb1.variable.syntax_string),
+                                               Snmpjr::Response.new(oid: vb2.oid.to_s, value: vb2.variable.to_s, type: vb1.variable.syntax_string)]
     end
 
     it 'closes the snmp session' do

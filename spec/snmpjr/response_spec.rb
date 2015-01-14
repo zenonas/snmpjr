@@ -5,12 +5,12 @@ describe Snmpjr::Response do
   describe '.new' do
     context 'when initialized with a value' do
       it 'assigns that value' do
-        response = described_class.new(oid: 'some oid', value: 'Some value')
-        expect(response.to_s).to eq 'Some value'
+        response = described_class.new(oid: 'some oid', value: 'Some value', type: 'Some type')
+        expect(response.to_h).to eq({ oid: 'some oid', value: 'Some value', type: 'Some type' })
       end
 
       it 'sets the error to an empty string' do
-        response = described_class.new(oid: 'some oid', value: 'Some value')
+        response = described_class.new(oid: 'some oid', value: 'Some value', type: 'Some type')
         expect(response.error).to eq ''
       end
     end
@@ -42,30 +42,25 @@ describe Snmpjr::Response do
     end
 
     it 'returns false if there isnt an error' do
-      response = described_class.new(oid: 'some oid', value: 'Some value')
+      response = described_class.new(oid: 'some oid', value: 'Some value', type: 'Some type')
       expect(response.error?).to be_falsey
     end
   end
 
   describe '#==' do
     context 'when the objects are equal' do
-      let(:other) { Snmpjr::Response.new(oid: 'some oid', value: 'some value') }
+      let(:other) { Snmpjr::Response.new(oid: 'some oid', value: 'some value', type: 'Some type') }
       it 'returns true' do
-        expect(described_class.new(oid: 'some oid', value: 'some value')).to eq other
+        expect(described_class.new(oid: 'some oid', value: 'some value', type: 'Some type')).to eq other
       end
     end
 
-    context 'when the objects are not equal' do
-      let(:other) { Snmpjr::Response.new(oid: 'some oid', error: 'some value') }
-      it 'returns true' do
-        expect(described_class.new(oid: 'some oid', error: 'some error')).to_not eq other
-      end
-    end
-
-    context 'when the oids are different' do
-      let(:other) { Snmpjr::Response.new(oid: 'some oid', error: 'some error') }
-      it 'returns true' do
-        expect(described_class.new(oid: 'another oid', error: 'some error')).to_not eq other
+    context 'when the objects are different' do
+      context 'when the objects are equal' do
+        let(:other) { Snmpjr::Response.new(oid: 'some oid', error: 'some error') }
+        it 'returns false' do
+          expect(described_class.new(oid: 'some oid', error: 'another error')).to_not eq other
+        end
       end
     end
 
@@ -73,12 +68,12 @@ describe Snmpjr::Response do
       let(:other) { double :response }
       before do
         allow(other).to receive(:error).and_return ''
-        allow(other).to receive(:to_s).and_return 'some value'
+        allow(other).to receive(:to_h).and_return({ value: 'some value', type: 'Some type' })
         allow(other).to receive(:oid).and_return 'some oid'
       end
 
       it 'returns false' do
-        expect(described_class.new(oid: 'some oid', value: 'some value')).to_not eq other
+        expect(described_class.new(oid: 'some oid', value: 'some value', type: 'Some type')).to_not eq other
       end
     end
   end

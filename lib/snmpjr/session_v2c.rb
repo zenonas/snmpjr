@@ -38,7 +38,7 @@ class Snmpjr
       if variable_binding.is_exception
         Snmpjr::Response.new(oid: variable_binding.oid.to_s, error: variable_binding.variable.to_s)
       else
-        Snmpjr::Response.new(oid: variable_binding.oid.to_s, value: variable_binding.variable.to_s)
+        Snmpjr::Response.new(oid: variable_binding.oid.to_s, value: variable_binding.variable.to_s, type: variable_binding.variable.syntax_string)
       end
     end
 
