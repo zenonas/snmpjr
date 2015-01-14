@@ -37,9 +37,11 @@ describe Snmpjr::SessionV2C do
 
     before do
       allow(snmp_session).to receive(:send).and_return response
+      allow(vb1).to receive_message_chain('variable.syntax_string')
       allow(vb1).to receive_message_chain('variable.to_s')
       allow(vb1).to receive_message_chain('oid.to_s') { "1.2.3" }
       allow(vb1).to receive(:is_exception)
+      allow(vb2).to receive_message_chain('variable.syntax_string')
       allow(vb2).to receive_message_chain('variable.to_s')
       allow(vb2).to receive_message_chain('oid.to_s') { "4.5.6" }
       allow(vb2).to receive(:is_exception)

@@ -18,11 +18,11 @@ describe "snmpjr for snmp v3" do
       end
 
       it 'can perform a simple synchronous get request on an snmp agent' do
-        expect(subject.get '1.3.6.1.2.1.1.1.0').to eq Snmpjr::Response.new(oid: '1.3.6.1.2.1.1.1.0', value: 'SunOS zeus.snmplabs.com 4.1.3_U1 1 sun4m')
+        expect(subject.get '1.3.6.1.2.1.1.1.0').to eq Snmpjr::Response.new(oid: '1.3.6.1.2.1.1.1.0', value: 'SunOS zeus.snmplabs.com 4.1.3_U1 1 sun4m', type: 'OCTET STRING')
       end
 
-      let(:expected) { [Snmpjr::Response.new(oid: '1.3.6.1.2.1.1.1.0', value: 'SunOS zeus.snmplabs.com 4.1.3_U1 1 sun4m'),
-                        Snmpjr::Response.new(oid: '1.3.6.1.2.1.1.5.0', value: 'zeus.snmplabs.com')] }
+      let(:expected) { [Snmpjr::Response.new(oid: '1.3.6.1.2.1.1.1.0', value: 'SunOS zeus.snmplabs.com 4.1.3_U1 1 sun4m', type: 'OCTET STRING'),
+                        Snmpjr::Response.new(oid: '1.3.6.1.2.1.1.5.0', value: 'zeus.snmplabs.com', type: 'OCTET STRING')] }
       it 'can perform a series of gets if passed an array of oids' do
         expect(subject.get ['1.3.6.1.2.1.1.1.0', '1.3.6.1.2.1.1.5.0']).to eq expected
       end
@@ -38,7 +38,7 @@ describe "snmpjr for snmp v3" do
         end
 
         let(:expected) { [Snmpjr::Response.new(oid: '1.3.6.1.2.1.1.5', error: 'noSuchInstance'),
-                          Snmpjr::Response.new(oid: '1.3.6.1.2.1.1.5.0', value: 'zeus.snmplabs.com')] }
+                          Snmpjr::Response.new(oid: '1.3.6.1.2.1.1.5.0', value: 'zeus.snmplabs.com', type: 'OCTET STRING')] }
 
         it 'returns an error' do
           expect(subject.get ['1.3.6.1.2.1.1.5', '1.3.6.1.2.1.1.5.0']).to eq expected
