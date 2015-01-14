@@ -22,9 +22,10 @@ describe "snmpjr for snmp v3" do
       end
 
       let(:expected) { [Snmpjr::Response.new(oid: '1.3.6.1.2.1.1.1.0', value: 'SunOS zeus.snmplabs.com 4.1.3_U1 1 sun4m', type: 'OCTET STRING'),
-                        Snmpjr::Response.new(oid: '1.3.6.1.2.1.1.5.0', value: 'zeus.snmplabs.com', type: 'OCTET STRING')] }
+                        Snmpjr::Response.new(oid: '1.3.6.1.2.1.1.5.0', value: 'zeus.snmplabs.com', type: 'OCTET STRING'),
+                        Snmpjr::Response.new(oid: '1.3.6.1.2.1.1.7.0', value: '72', type: 'Integer32')] }
       it 'can perform a series of gets if passed an array of oids' do
-        expect(subject.get ['1.3.6.1.2.1.1.1.0', '1.3.6.1.2.1.1.5.0']).to eq expected
+        expect(subject.get ['1.3.6.1.2.1.1.1.0', '1.3.6.1.2.1.1.5.0', '1.3.6.1.2.1.1.7.0']).to eq expected
       end
 
      context "when an invalid oid is requested" do
