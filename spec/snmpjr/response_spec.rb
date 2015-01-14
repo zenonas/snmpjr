@@ -6,7 +6,7 @@ describe Snmpjr::Response do
     context 'when initialized with a value' do
       it 'assigns that value' do
         response = described_class.new(oid: 'some oid', value: 'Some value', type: 'Some type')
-        expect(response.to_h).to eq({ value: 'Some value', type: 'Some type' })
+        expect(response.to_h).to eq({ oid: 'some oid', value: 'Some value', type: 'Some type' })
       end
 
       it 'sets the error to an empty string' do

@@ -18,7 +18,7 @@ class Snmpjr
     end
 
     def to_h
-      { value: @value, type: @type }
+      { oid: @oid, value: @value, type: @type }
     end
 
     def to_s
