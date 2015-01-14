@@ -1,5 +1,6 @@
 require 'snmpjr/wrappers/transport'
 require 'snmpjr/response'
+require 'snmpjr/error'
 
 class Snmpjr
   class SessionV2C
@@ -36,7 +37,7 @@ class Snmpjr
 
     def construct_response variable_binding
       if variable_binding.is_exception
-        Snmpjr::Response.new(oid: variable_binding.oid.to_s, error: variable_binding.variable.to_s)
+        Snmpjr::Error.new(oid: variable_binding.oid.to_s, error: variable_binding.variable.to_s)
       else
         Snmpjr::Response.new(oid: variable_binding.oid.to_s, value: variable_binding.variable.to_s)
       end

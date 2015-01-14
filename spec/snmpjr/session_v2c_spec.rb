@@ -37,18 +37,25 @@ describe Snmpjr::SessionV2C do
 
     before do
       allow(snmp_session).to receive(:send).and_return response
-      allow(vb1).to receive_message_chain('variable.to_s')
+      allow(vb1).to receive_message_chain('variable.to_s') { "a value" }
       allow(vb1).to receive_message_chain('oid.to_s') { "1.2.3" }
-      allow(vb1).to receive(:is_exception)
-      allow(vb2).to receive_message_chain('variable.to_s')
+      allow(vb1).to receive(:is_exception) { false }
+      allow(vb2).to receive_message_chain('variable.to_s') { "an error" }
       allow(vb2).to receive_message_chain('oid.to_s') { "4.5.6" }
-      allow(vb2).to receive(:is_exception)
+      allow(vb2).to receive(:is_exception) { true }
       allow(response).to receive_message_chain('response.variable_bindings').and_return(results)
     end
 
     it 'sends the pdu to the target' do
       expect(snmp_session).to receive(:send).with(pdu, target)
       subject.send(pdu, target)
+    end
+
+    it 'returns the array of responses' do
+      expect(subject.send(pdu, target)).to eq [
+        Snmpjr::Response.new(oid: '1.2.3', value: 'a value'),
+        Snmpjr::Error.new(oid: '4.5.6', error: 'an error')
+      ]
     end
 
     context 'the requests times out' do
