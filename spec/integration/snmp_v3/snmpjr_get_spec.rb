@@ -1,5 +1,6 @@
 require 'snmpjr'
 require 'snmpjr/response'
+require 'snmpjr/error'
 require 'snmpjr/session_v3'
 
 describe "snmpjr for snmp v3" do
@@ -37,7 +38,7 @@ describe "snmpjr for snmp v3" do
           end
         end
 
-        let(:expected) { [Snmpjr::Response.new(oid: '1.3.6.1.2.1.1.5', error: 'noSuchInstance'),
+        let(:expected) { [Snmpjr::Error.new(oid: '1.3.6.1.2.1.1.5', error: 'noSuchInstance'),
                           Snmpjr::Response.new(oid: '1.3.6.1.2.1.1.5.0', value: 'zeus.snmplabs.com')] }
 
         it 'returns an error' do
